@@ -1,14 +1,17 @@
+<!-- Sidebar.vue -->
 <template>
   <aside class="sidebar">
     <div class="sidebar-logo">MENU</div>
     <ul class="sidebar-list">
-      <li class="sidebar-item"><a href="#">Projects</a></li>
-      <li class="sidebar-item"><a href="#">Orders</a></li>
-      <li class="sidebar-item"><a href="#">Posts</a></li>
-      <li class="sidebar-item"><a href="#">Courses</a></li>
-      <li class="sidebar-item"><a href="#">Requests</a></li>
-      <li class="sidebar-item"><a href="#">Settings</a></li>
-      <li class="sidebar-item"><a href="#">Logout</a></li>
+      <li class="sidebar-item"><router-link to="/"><i class="fas fa-home"></i> Home</router-link></li>
+      <li class="sidebar-item"><router-link to="/projects"><i class="fas fa-code"></i> Projects</router-link></li>
+      <li class="sidebar-item"><router-link to="/orders"><i class="fas fa-shopping-cart"></i> Orders</router-link></li>
+      <li class="sidebar-item"><router-link to="/posts"><i class="fas fa-scroll"></i> Posts</router-link></li>
+      <li class="sidebar-item"><router-link to="/courses"><i class="fas fa-book"></i> Courses</router-link></li>
+      <li class="sidebar-item"><router-link to="/requests"><i class="fas fa-handshake"></i> Requests</router-link></li>
+      <li class="sidebar-item"><router-link to="/settings"><i class="fas fa-cog"></i> Settings</router-link></li>
+      <li class="sidebar-item"><router-link to="/profile"><i class="fas fa-user"></i> Profile</router-link></li>
+      <li class="sidebar-item"><router-link to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link></li>
     </ul>
   </aside>
 </template>
@@ -18,9 +21,12 @@
   height: 100vh;
   position: fixed;
   width: 250px;
-  background: linear-gradient(180deg, #1a2238 0%, #0a3d62 100%);
-  border-right: 1px solid #00c4b4;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, #0f172a 0%, #1e40af 100%);
+  border-right: 1px solid #3b82f6;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  z-index: 100;
+  overflow-y: auto;
 }
 
 .sidebar-logo {
@@ -28,12 +34,12 @@
   font-weight: 700;
   text-align: center;
   padding: 20px;
-  color: #f59e0b;
+  color: #f9fafb;
   transition: color 0.3s ease;
 }
 
 .sidebar-logo:hover {
-  color: #fb923c;
+  color: #3b82f6;
 }
 
 .sidebar-list {
@@ -44,37 +50,51 @@
 
 .sidebar-item {
   padding: 15px 20px;
+  transition: background 0.3s ease;
 }
 
 .sidebar-item a {
-  color: #f59e0b;
+  color: #f9fafb;
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   transition: all 0.3s ease;
 }
 
 .sidebar-item a:hover {
-  color: #fb923c;
-  background: rgba(0, 196, 180, 0.1);
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
   padding-left: 10px;
+  transform: translateX(5px);
 }
 
 /* Light mode styles */
 .light-mode .sidebar {
-  background: linear-gradient(180deg, #f8fafc 0%, #e0f7fa 100%);
-  border-right: 1px solid #4b9cd3;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, #f9fafb 0%, #dbeafe 100%);
+  border-right: 1px solid #3b82f6;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .light-mode .sidebar-logo,
 .light-mode .sidebar-item a {
-  color: #b45309;
+  color: #1f2937;
 }
 
 .light-mode .sidebar-item a:hover {
-  color: #fb923c;
-  background: rgba(75, 156, 211, 0.1);
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid #3b82f6;
+  }
 }
 </style>
