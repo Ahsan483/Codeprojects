@@ -1,24 +1,18 @@
+<!-- src/views/Posts.vue -->
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+//import axios from 'axios';
 
-const posts = ref([
-  {
-    id: 1,
-    user: 'User1',
-    avatar: '👨',
-    content: 'Just finished my first Vue project! Check it out!',
-    image: '',
-    video: '',
-    likes: 5,
-    comments: [{ user: 'User2', text: 'Nice work!', timestamp: new Date(Date.now() - 3600000) }],
-    shares: 2,
-    hashtags: ['#coding', '#vue'],
-    saved: false,
-    followers: 100,
-    following: false,
-    timestamp: new Date(Date.now() - 7200000)
-  }
+const API_BASE = 'http://localhost:5000/api'; // Adjust to your .NET API URL
+
+const users = ref([
+  { id: 1, name: 'User1', avatar: '👨', followers: 100, following: false },
+  { id: 2, name: 'User2', avatar: '👩', followers: 150, following: true },
+  { id: 3, name: 'User3', avatar: '🧑', followers: 80, following: false },
+  // Add more users as needed
 ]);
+
+const posts = ref([]);
 
 const newPostContent = ref('');
 const newPostImage = ref(null);
@@ -26,13 +20,67 @@ const newPostVideo = ref(null);
 const newPostHashtags = ref('');
 const searchQuery = ref('');
 const sortOption = ref('newest');
+const currentUser = { id: 0, name: 'You', avatar: '😊' }; // Simulated current user
 
-const createPost = () => {
+const fetchData = async () => {
+  try {
+    const [postsRes, usersRes] = await Promise.all([
+      axios.get(`${API_BASE}/posts`),
+      axios.get(`${API_BASE}/users`)
+    ]);
+    posts.value = postsRes.data;
+    users.value = usersRes.data;
+  } catch (error) {
+    console.error('API fetch error, using sample data:', error);
+    // Fallback sample data
+    posts.value = [
+      {
+        id: 1,
+        userId: 1,
+        content: 'Just finished my first Vue project! Check it out!',
+        image: '',
+        video: '',
+        likes: 5,
+        comments: [{ userId: 2, text: 'Nice work!', timestamp: new Date(Date.now() - 3600000) }],
+        shares: 2,
+        hashtags: ['#coding', '#vue'],
+        saved: false,
+        timestamp: new Date(Date.now() - 7200000)
+      },
+      {
+        id: 2,
+        userId: 2,
+        content: 'Loving .NET for backend! Built an API today.',
+        image: '',
+        video: '',
+        likes: 10,
+        comments: [],
+        shares: 3,
+        hashtags: ['#dotnet', '#api'],
+        saved: false,
+        timestamp: new Date(Date.now() - 10800000)
+      },
+      {
+        id: 3,
+        userId: 3,
+        content: 'Sharing my coding setup. What\'s yours?',
+        image: '',
+        video: '',
+        likes: 8,
+        comments: [{ userId: 1, text: 'Cool setup!', timestamp: new Date(Date.now() - 1800000) }],
+        shares: 1,
+        hashtags: ['#codinglife'],
+        saved: false,
+        timestamp: new Date(Date.now() - 14400000)
+      }
+    ];
+  }
+};
+
+const createPost = async () => {
   if (newPostContent.value.trim()) {
-    posts.value.unshift({
-      id: posts.value.length + 1,
-      user: 'You',
-      avatar: '😊',
+    const newPost = {
+      userId: currentUser.id,
       content: newPostContent.value,
       image: newPostImage.value ? URL.createObjectURL(newPostImage.value) : '',
       video: newPostVideo.value ? URL.createObjectURL(newPostVideo.value) : '',
@@ -41,69 +89,103 @@ const createPost = () => {
       shares: 0,
       hashtags: newPostHashtags.value.split(',').map(tag => tag.trim()),
       saved: false,
-      followers: 0,
-      following: false,
       timestamp: new Date()
-    });
+    };
+    try {
+      const res = await axios.post(`${API_BASE}/posts`, newPost);
+      posts.value.unshift(res.data);
+    } catch (error) {
+      console.error('API error, adding locally:', error);
+      newPost.id = posts.value.length + 1;
+      posts.value.unshift(newPost);
+    }
     newPostContent.value = '';
     newPostImage.value = null;
     newPostVideo.value = null;
     newPostHashtags.value = '';
-    console.log('Post created!');
   }
 };
 
-const likePost = (post) => {
+const likePost = async (post) => {
   post.likes++;
-};
-
-const sharePost = (post) => {
-  post.shares++;
-  console.log('Post shared!');
-};
-
-const addComment = (post, commentText) => {
-  if (commentText.trim()) {
-    post.comments.push({ user: 'You', text: commentText, timestamp: new Date() });
+  try {
+    await axios.put(`${API_BASE}/posts/${post.id}/like`);
+  } catch (error) {
+    console.error('API error:', error);
   }
 };
 
-const savePost = (post) => {
+const sharePost = async (post) => {
+  post.shares++;
+  try {
+    await axios.put(`${API_BASE}/posts/${post.id}/share`);
+  } catch (error) {
+    console.error('API error:', error);
+  }
+};
+
+const addComment = async (post, commentText) => {
+  if (commentText.trim()) {
+    const newComment = { userId: currentUser.id, text: commentText, timestamp: new Date() };
+    post.comments.push(newComment);
+    try {
+      await axios.post(`${API_BASE}/posts/${post.id}/comments`, newComment);
+    } catch (error) {
+      console.error('API error:', error);
+    }
+  }
+};
+
+const savePost = async (post) => {
   post.saved = !post.saved;
-  console.log(`Post ${post.saved ? 'saved' : 'unsaved'}!`);
+  try {
+    await axios.put(`${API_BASE}/posts/${post.id}/save`, { saved: post.saved });
+  } catch (error) {
+    console.error('API error:', error);
+  }
 };
 
-const followUser = (post) => {
-  post.following = !post.following;
-  post.followers += post.following ? 1 : -1;
-  console.log(`${post.following ? 'Followed' : 'Unfollowed'} ${post.user}!`);
+const followUser = async (user) => {
+  user.following = !user.following;
+  user.followers += user.following ? 1 : -1;
+  try {
+    await axios.put(`${API_BASE}/users/${user.id}/follow`, { following: user.following });
+  } catch (error) {
+    console.error('API error:', error);
+  }
 };
 
-const createReel = () => {
-  console.log('Reel created!');
-};
-
-const createStory = () => {
-  console.log('Story created!');
-};
-
-const editPost = (post, newContent) => {
+const editPost = async (post, newContent) => {
   if (newContent && newContent.trim()) {
     post.content = newContent;
-    console.log('Post edited!');
+    try {
+      await axios.put(`${API_BASE}/posts/${post.id}`, { content: newContent });
+    } catch (error) {
+      console.error('API error:', error);
+    }
   }
 };
 
-const deletePost = (postId) => {
+const deletePost = async (postId) => {
+  try {
+    await axios.delete(`${API_BASE}/posts/${postId}`);
+  } catch (error) {
+    console.error('API error:', error);
+  }
   posts.value = posts.value.filter(p => p.id !== postId);
-  console.log('Post deleted!');
 };
 
+const getUserById = (userId) => users.value.find(u => u.id === userId) || currentUser;
+
 const filteredPosts = computed(() => {
-  let result = posts.value.filter(post =>
-    post.content.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-    post.hashtags.some(tag => tag.toLowerCase().includes(searchQuery.value.toLowerCase()))
-  );
+  let result = posts.value.filter(post => {
+    const user = getUserById(post.userId);
+    return (
+      post.content.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      post.hashtags.some(tag => tag.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+      user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  });
   if (sortOption.value === 'newest') {
     result.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   } else if (sortOption.value === 'likes') {
@@ -120,16 +202,27 @@ const formatTime = (timestamp) => {
   if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
   return `${Math.floor(diff / 86400)} days ago`;
 };
+
+const createReel = () => {
+  console.log('Reel created!'); // Placeholder; extend with API if needed
+};
+
+const createStory = () => {
+  console.log('Story created!'); // Placeholder; extend with API if needed
+};
+
+onMounted(fetchData);
 </script>
 
 <template>
   <div class="posts">
     <div class="hero-section">
+      <div class="particles"></div>
       <h1 class="hero-title">Social Coding Feed</h1>
-      <p class="hero-subtitle">Share your coding journey with posts, reels, and stories.</p>
+      <p class="hero-subtitle">Share your coding journey with posts, reels, and stories. Connect with developers worldwide!</p>
       <div class="search-sort">
         <div class="search-bar">
-          <input v-model="searchQuery" placeholder="Search posts or hashtags..." class="search-input" />
+          <input v-model="searchQuery" placeholder="Search posts, hashtags, or users..." class="search-input" />
           <i class="fas fa-search search-icon"></i>
         </div>
         <select v-model="sortOption" class="sort-select">
@@ -147,13 +240,13 @@ const formatTime = (timestamp) => {
         <input type="file" accept="video/*" @change="e => newPostVideo = e.target.files[0]" class="form-file" />
       </div>
       <div class="form-actions">
-        <button @click="createPost" class="action-button">
+        <button @click="createPost" class="action-button pulse">
           <i class="fas fa-paper-plane"></i> Post
         </button>
-        <button @click="createStory" class="action-button">
+        <button @click="createStory" class="action-button pulse">
           <i class="fas fa-camera"></i> Create Story
         </button>
-        <button @click="createReel" class="action-button">
+        <button @click="createReel" class="action-button pulse">
           <i class="fas fa-video"></i> Create Reel
         </button>
       </div>
@@ -162,12 +255,12 @@ const formatTime = (timestamp) => {
     <transition-group name="post-list" tag="div" class="post-grid">
       <div v-for="post in filteredPosts" :key="post.id" class="post-card">
         <div class="card-header">
-          <span class="user-avatar">{{ post.avatar }}</span>
+          <span class="user-avatar">{{ getUserById(post.userId).avatar }}</span>
           <div class="user-info">
-            <span class="user-name">{{ post.user }}</span>
+            <span class="user-name">{{ getUserById(post.userId).name }}</span>
             <span class="timestamp">{{ formatTime(post.timestamp) }}</span>
           </div>
-          <button class="delete-btn" @click="deletePost(post.id)" title="Delete Post">
+          <button v-if="post.userId === currentUser.id" class="delete-btn" @click="deletePost(post.id)" title="Delete Post">
             <i class="fas fa-trash"></i>
           </button>
         </div>
@@ -182,7 +275,7 @@ const formatTime = (timestamp) => {
         <div class="card-stats">
           <span><i class="fas fa-heart"></i> {{ post.likes }} Likes</span>
           <span><i class="fas fa-share"></i> {{ post.shares }} Shares</span>
-          <span><i class="fas fa-users"></i> {{ post.followers }} Followers</span>
+          <span><i class="fas fa-users"></i> {{ getUserById(post.userId).followers }} Followers</span>
         </div>
         <div class="card-actions">
           <button @click="likePost(post)" class="action-button">
@@ -194,17 +287,17 @@ const formatTime = (timestamp) => {
           <button @click="savePost(post)" class="action-button">
             <i class="fas fa-bookmark"></i> {{ post.saved ? 'Unsave' : 'Save' }}
           </button>
-          <button @click="followUser(post)" class="action-button">
-            <i class="fas fa-user-plus"></i> {{ post.following ? 'Unfollow' : 'Follow' }}
+          <button v-if="post.userId !== currentUser.id" @click="followUser(getUserById(post.userId))" class="action-button">
+            <i class="fas fa-user-plus"></i> {{ getUserById(post.userId).following ? 'Unfollow' : 'Follow' }}
           </button>
-          <button @click="editPost(post, prompt('New content:', post.content))" class="action-button">
+          <button v-if="post.userId === currentUser.id" @click="editPost(post, prompt('New content:', post.content))" class="action-button">
             <i class="fas fa-edit"></i> Edit
           </button>
         </div>
         <div class="comments">
           <h4>Comments</h4>
           <div v-for="(comment, index) in post.comments" :key="index" class="comment">
-            <strong>{{ comment.user }}:</strong> {{ comment.text }}
+            <strong>{{ getUserById(comment.userId).name }}:</strong> {{ comment.text }}
             <span class="comment-timestamp">{{ formatTime(comment.timestamp) }}</span>
           </div>
           <div class="comment-input">
@@ -221,43 +314,67 @@ const formatTime = (timestamp) => {
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css');
 
+/* Enhanced theme for attractiveness */
 .posts {
   padding: 30px;
   max-width: 1400px;
   margin: 0 auto;
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8));
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85));
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   color: #f9fafb;
   display: grid;
   gap: 30px;
-}
-
-.hero-section {
-  text-align: center;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  border-radius: 12px;
   position: relative;
   overflow: hidden;
 }
 
+.hero-section {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8, #2563eb);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: particles 10s linear infinite;
+}
+
+@keyframes particles {
+  0% { background-position: 0 0; }
+  100% { background-position: 100px 100px; }
+}
+
 .hero-title {
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 700;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(45deg, #f9fafb, #60a5fa);
+  margin-bottom: 15px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(45deg, #f9fafb, #60a5fa, #93c5fd);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #60a5fa; }
+  to { text-shadow: 0 0 20px #93c5fd; }
 }
 
 .hero-subtitle {
-  font-size: 18px;
+  font-size: 20px;
   color: #e5e7eb;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .search-sort {
@@ -274,7 +391,7 @@ const formatTime = (timestamp) => {
 }
 
 .search-input {
-  width: 90%;
+  width: 100%;
   padding: 12px 40px 12px 16px;
   border: 1px solid #60a5fa;
   border-radius: 12px;
@@ -369,7 +486,18 @@ const formatTime = (timestamp) => {
 
 .action-button:hover {
   background: linear-gradient(135deg, #60a5fa, #3b82f6);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .post-grid {
@@ -383,12 +511,12 @@ const formatTime = (timestamp) => {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
 }
 
 .card-header {
@@ -469,6 +597,7 @@ const formatTime = (timestamp) => {
 .hashtag:hover {
   color: #93c5fd;
   text-decoration: underline;
+  transform: scale(1.1);
 }
 
 .post-media {
@@ -519,7 +648,7 @@ const formatTime = (timestamp) => {
 }
 
 .comment-input input {
-  width: 90%;
+  width: 100%;
   padding: 10px 40px 10px 12px;
   border: 1px solid #3b82f6;
   border-radius: 8px;
@@ -553,16 +682,17 @@ const formatTime = (timestamp) => {
 }
 
 .light-mode .posts {
-  background: linear-gradient(135deg, rgba(243, 244, 246, 0.9), rgba(191, 219, 254, 0.8));
+  background: linear-gradient(135deg, rgba(243, 244, 246, 0.95), rgba(191, 219, 254, 0.85));
   color: #1f2937;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .light-mode .hero-section {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb);
 }
 
 .light-mode .hero-title {
-  background: linear-gradient(45deg, #1f2937, #3b82f6);
+  background: linear-gradient(45deg, #1f2937, #3b82f6, #2563eb);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
