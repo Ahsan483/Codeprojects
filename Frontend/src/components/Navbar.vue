@@ -37,16 +37,11 @@ const toggleMobileMenu = () => {
 <template>
   <nav class="navbar">
     <div class="navbar-con">
-      <div class="navbar-logo">Code Projects</div>
       <div class="navbar-search">
         <input v-model="globalSearch" placeholder="Search posts, projects..." @keyup.enter="performSearch" />
         <button @click="performSearch"><i class="fas fa-search"></i></button>
       </div>
       <div class="navbar-list desktop">
-        <router-link to="/"><i class="fas fa-home"></i> Home</router-link>
-        <router-link to="/posts"><i class="fas fa-scroll"></i> Posts</router-link>
-        <router-link to="/projects"><i class="fas fa-code"></i> Projects</router-link>
-        <router-link to="/profile"><i class="fas fa-user"></i> Profile</router-link>
         <button @click="emit('toggle-theme')" class="theme-toggle">
           <i class="fas fa-moon" v-if="props.isDarkMode"></i>
           <i class="fas fa-sun" v-else></i> {{ props.isDarkMode ? 'Light' : 'Dark' }}
@@ -171,7 +166,7 @@ const toggleMobileMenu = () => {
   display: flex;
   gap: 20px;
   align-items: center;
-  margin-right: 30px;
+  margin-right: 50px;
 }
 
 .navbar-list a {

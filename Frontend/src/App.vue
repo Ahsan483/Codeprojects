@@ -63,6 +63,5 @@ router.beforeEach((to, from, next) => {
 
 /* Light mode styles */
 .light-mode {
-  background: linear-gradient(135deg, #f9fafb 0%, #dbeafe 100%);
 }
 </style>

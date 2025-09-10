@@ -1,16 +1,15 @@
 <!-- Sidebar.vue -->
 <template>
   <aside class="sidebar">
-    <div class="sidebar-logo">MENU</div>
+    <div class="sidebar-logo">Code Projects</div>
     <ul class="sidebar-list">
       <li class="sidebar-item"><router-link to="/"><i class="fas fa-home"></i> Home</router-link></li>
       <li class="sidebar-item"><router-link to="/projects"><i class="fas fa-code"></i> Projects</router-link></li>
       <li class="sidebar-item"><router-link to="/orders"><i class="fas fa-shopping-cart"></i> Orders</router-link></li>
       <li class="sidebar-item"><router-link to="/posts"><i class="fas fa-scroll"></i> Posts</router-link></li>
       <li class="sidebar-item"><router-link to="/courses"><i class="fas fa-book"></i> Courses</router-link></li>
-      <li class="sidebar-item"><router-link to="/requests"><i class="fas fa-handshake"></i> Requests</router-link></li>
+      <li class="sidebar-item"><router-link to="/messages"><i class="fas fa-message"></i> Messages</router-link></li>
       <li class="sidebar-item"><router-link to="/settings"><i class="fas fa-cog"></i> Settings</router-link></li>
-      <li class="sidebar-item"><router-link to="/profile"><i class="fas fa-user"></i> Profile</router-link></li>
       <li class="sidebar-item"><router-link to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link></li>
     </ul>
   </aside>
@@ -34,12 +33,15 @@
   font-weight: 700;
   text-align: center;
   padding: 20px;
-  color: #f9fafb;
-  transition: color 0.3s ease;
+  background-image: linear-gradient(0.15turn, #ffffff, #dfc327, #00ffaa);
+  -webkit-background-clip: text; 
+  background-clip: text;
+  color: transparent; 
+  transition: background-image 0.3s ease;
 }
 
 .sidebar-logo:hover {
-  color: #3b82f6;
+  background-image: linear-gradient(0.25turn, #3b82f6, #ebf8e1, #f69d3c); 
 }
 
 .sidebar-list {
