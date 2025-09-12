@@ -1,88 +1,130 @@
-<!-- Navbar.vue -->
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const props = defineProps(['isDarkMode']);
-const emit = defineEmits(['toggle-theme']);
+const props = defineProps({
+  isDarkMode: Boolean,
+  user: Object,
+});
+const emit = defineEmits(['toggle-theme', 'logout']);
 
 const isNotificationsOpen = ref(false);
 const notifications = ref([
   { id: 1, message: 'New project assigned!', read: false },
   { id: 2, message: 'Order #123 updated.', read: false },
-  { id: 3, message: 'New course available.', read: false }
+  { id: 3, message: 'New course available.', read: false },
 ]);
 
 const toggleNotifications = () => {
-  isNotificationsOpen.value = !isNotificationsOpen.value;
+  if (props.user) {
+    isNotificationsOpen.value = !isNotificationsOpen.value;
+  }
 };
 
 const markRead = (notification) => {
-  notification.read = true;
+  if (props.user) {
+    notification.read = true;
+  }
 };
 
 const globalSearch = ref('');
 const router = useRouter();
 const performSearch = () => {
-  console.log(`Searching for ${globalSearch.value} across app!`);
-  router.push({ path: '/', query: { search: globalSearch.value } });
+  if (props.user && globalSearch.value.trim()) {
+    console.log(`Searching for ${globalSearch.value} across app!`);
+    router.push({ path: '/', query: { search: globalSearch.value } });
+  }
 };
 
 const isMobileMenuOpen = ref(false);
 const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+  if (props.user) {
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+  }
+};
+
+const handleLogout = () => {
+  emit('logout');
+  isMobileMenuOpen.value = false;
+  isNotificationsOpen.value = false;
 };
 </script>
 
 <template>
-  <nav class="navbar">
+  <nav class="navbar" :class="{ 'light-mode': !isDarkMode }">
     <div class="navbar-con">
       <div class="navbar-search">
-        <input v-model="globalSearch" placeholder="Search posts, projects..." @keyup.enter="performSearch" />
-        <button @click="performSearch"><i class="fas fa-search"></i></button>
+        <input
+          v-model="globalSearch"
+          placeholder="Search posts, projects..."
+          @keyup.enter="performSearch"
+          :disabled="!user"
+        />
+        <button @click="performSearch" :disabled="!user">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
       <div class="navbar-list desktop">
         <button @click="emit('toggle-theme')" class="theme-toggle">
-          <i class="fas fa-moon" v-if="props.isDarkMode"></i>
-          <i class="fas fa-sun" v-else></i> {{ props.isDarkMode ? 'Light' : 'Dark' }}
+          <i :class="isDarkMode ? 'fas fa-moon' : 'fas fa-sun'"></i>
+          {{ isDarkMode ? 'Light' : 'Dark' }}
         </button>
         <div class="notification-wrapper">
-          <button class="notification-btn" @click="toggleNotifications">
+          <button class="notification-btn" @click="toggleNotifications" :disabled="!user">
             <i class="fas fa-bell"></i>
             <span class="notification-count">{{ notifications.filter(n => !n.read).length }}</span>
           </button>
           <div v-if="isNotificationsOpen" class="notification-dropdown">
             <div v-for="notification in notifications" :key="notification.id" class="notification-item" :class="{ read: notification.read }">
               {{ notification.message }}
-              <button @click="markRead(notification)">Mark Read</button>
+              <button @click="markRead(notification)" :disabled="!user">Mark Read</button>
             </div>
           </div>
         </div>
-        <router-link to="/profile" class="profile-btn"><i class="fas fa-user-circle"></i></router-link>
+        <router-link :to="user ? '/profile' : '#'" class="profile-btn">
+          <i class="fas fa-user-circle"></i>
+          {{ user ? user.username : 'Guest' }}
+        </router-link>
+        <button v-if="user" @click="handleLogout" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
       </div>
-      <button class="mobile-toggle" @click="toggleMobileMenu"><i class="fas fa-bars"></i></button>
+      <button class="mobile-toggle" @click="toggleMobileMenu" :disabled="!user">
+        <i class="fas fa-bars"></i>
+      </button>
       <div v-if="isMobileMenuOpen" class="navbar-list mobile">
-        <router-link to="/" @click="toggleMobileMenu"><i class="fas fa-home"></i> Home</router-link>
-        <router-link to="/posts" @click="toggleMobileMenu"><i class="fas fa-scroll"></i> Posts</router-link>
-        <router-link to="/projects" @click="toggleMobileMenu"><i class="fas fa-code"></i> Projects</router-link>
-        <router-link to="/profile" @click="toggleMobileMenu"><i class="fas fa-user"></i> Profile</router-link>
+        <router-link :to="user ? '/' : '#'" @click="toggleMobileMenu">
+          <i class="fas fa-home"></i> Home
+        </router-link>
+        <router-link :to="user ? '/posts' : '#'" @click="toggleMobileMenu">
+          <i class="fas fa-scroll"></i> Posts
+        </router-link>
+        <router-link :to="user ? '/projects' : '#'" @click="toggleMobileMenu">
+          <i class="fas fa-code"></i> Projects
+        </router-link>
+        <router-link :to="user ? '/profile' : '#'" @click="toggleMobileMenu">
+          <i class="fas fa-user"></i>
+          {{ user ? user.username : 'Guest' }}
+        </router-link>
         <button @click="emit('toggle-theme'); toggleMobileMenu()" class="theme-toggle">
-          <i class="fas fa-moon" v-if="props.isDarkMode"></i>
-          <i class="fas fa-sun" v-else></i> {{ props.isDarkMode ? 'Light' : 'Dark' }}
+          <i :class="isDarkMode ? 'fas fa-moon' : 'fas fa-sun'"></i>
+          {{ isDarkMode ? 'Light' : 'Dark' }}
         </button>
         <div class="notification-wrapper">
-          <button class="notification-btn" @click="toggleNotifications" @click.stop>
+          <button class="notification-btn" @click="toggleNotifications" @click.stop :disabled="!user">
             <i class="fas fa-bell"></i>
             <span class="notification-count">{{ notifications.filter(n => !n.read).length }}</span>
           </button>
           <div v-if="isNotificationsOpen" class="notification-dropdown" @click.stop>
             <div v-for="notification in notifications" :key="notification.id" class="notification-item" :class="{ read: notification.read }">
               {{ notification.message }}
-              <button @click="markRead(notification)">Mark Read</button>
+              <button @click="markRead(notification)" :disabled="!user">Mark Read</button>
             </div>
           </div>
         </div>
-        <router-link to="/profile" class="profile-btn" @click="toggleMobileMenu"><i class="fas fa-user-circle"></i></router-link>
+        <button v-if="user" @click="handleLogout" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
       </div>
     </div>
   </nav>
@@ -111,19 +153,6 @@ const toggleMobileMenu = () => {
   margin: 0 auto;
 }
 
-.navbar-logo {
-  font-size: 24px;
-  font-weight: 700;
-  color: #f9fafb;
-  padding: 0 20px;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.navbar-logo:hover {
-  transform: scale(1.05);
-  color: #3b82f6;
-}
-
 .navbar-search {
   flex: 1;
   display: flex;
@@ -147,6 +176,11 @@ const toggleMobileMenu = () => {
   background: rgba(30, 41, 59, 0.9);
 }
 
+.navbar-search input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .navbar-search button {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: #f9fafb;
@@ -157,7 +191,12 @@ const toggleMobileMenu = () => {
   transition: all 0.3s ease;
 }
 
-.navbar-search button:hover {
+.navbar-search button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.navbar-search button:hover:not(:disabled) {
   background: linear-gradient(135deg, #f87171, #ef4444);
   transform: translateY(-2px);
 }
@@ -180,12 +219,18 @@ const toggleMobileMenu = () => {
   transition: all 0.3s ease;
 }
 
-.navbar-list a:hover {
+.navbar-list a[href='#'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.navbar-list a:hover:not([href='#']) {
   color: #3b82f6;
   transform: scale(1.05);
 }
 
-.theme-toggle, .notification-btn, .profile-btn {
+.theme-toggle, .notification-btn, .profile-btn, .logout-btn {
   background: transparent;
   border: 1px solid #ef4444;
   color: #f9fafb;
@@ -200,10 +245,15 @@ const toggleMobileMenu = () => {
   transition: all 0.3s ease;
 }
 
-.theme-toggle:hover, .notification-btn:hover, .profile-btn:hover {
+.theme-toggle:hover, .notification-btn:hover, .profile-btn:hover, .logout-btn:hover {
   background: #3b82f6;
   color: #f9fafb;
   transform: scale(1.05);
+}
+
+.notification-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .notification-wrapper {
@@ -258,6 +308,11 @@ const toggleMobileMenu = () => {
   border-bottom: none;
 }
 
+.notification-item button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .mobile-toggle {
   display: none;
   background: transparent;
@@ -265,6 +320,11 @@ const toggleMobileMenu = () => {
   color: #f9fafb;
   font-size: 24px;
   cursor: pointer;
+}
+
+.mobile-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .navbar-list.mobile {
@@ -303,11 +363,11 @@ const toggleMobileMenu = () => {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.light-mode .navbar-logo,
 .light-mode .navbar-list a,
 .light-mode .theme-toggle,
 .light-mode .notification-btn,
-.light-mode .profile-btn {
+.light-mode .profile-btn,
+.light-mode .logout-btn {
   color: #1f2937;
 }
 
@@ -322,11 +382,11 @@ const toggleMobileMenu = () => {
   color: #1f2937;
 }
 
-.light-mode .navbar-logo:hover,
-.light-mode .navbar-list a:hover,
+.light-mode .navbar-list a:hover:not([href='#']),
 .light-mode .theme-toggle:hover,
-.light-mode .notification-btn:hover,
-.light-mode .profile-btn:hover {
+.light-mode .notification-btn:hover:not(:disabled),
+.light-mode .profile-btn:hover,
+.light-mode .logout-btn:hover {
   color: #1f2937;
   background: #3b82f6;
 }

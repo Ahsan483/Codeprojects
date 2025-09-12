@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue';
+defineProps({
+  isAuthenticated: Boolean,
+});
 
 const isChatOpen = ref(true); // Chat open by default for better visibility
 const selectedUser = ref(null);
@@ -7,14 +10,14 @@ const selectedGroup = ref(null);
 const messages = ref({
   1: [
     { id: 1, sender: 'User1', avatar: '👨', text: 'Hello!', timestamp: new Date(Date.now() - 3600000), reactions: [] },
-    { id: 2, sender: 'You', avatar: '😊', text: 'Hi there!', timestamp: new Date(Date.now() - 3500000), reactions: ['👍'] }
+    { id: 2, sender: 'You', avatar: '😊', text: 'Hi there!', timestamp: new Date(Date.now() - 3500000), reactions: ['👍'] },
   ],
   2: [{ id: 1, sender: 'User2', avatar: '👩', text: 'How’s it going?', timestamp: new Date(Date.now() - 7200000), reactions: [] }],
   3: [{ id: 1, sender: 'User3', avatar: '🧑', text: 'New message!', timestamp: new Date(Date.now() - 1800000), reactions: [] }],
   group_1: [
     { id: 1, sender: 'User1', avatar: '👨', text: 'Welcome to the group!', timestamp: new Date(Date.now() - 3600000), reactions: [] },
-    { id: 2, sender: 'You', avatar: '😊', text: 'Excited to be here!', timestamp: new Date(Date.now() - 3500000), reactions: ['❤️'] }
-  ]
+    { id: 2, sender: 'You', avatar: '😊', text: 'Excited to be here!', timestamp: new Date(Date.now() - 3500000), reactions: ['❤️'] },
+  ],
 });
 const newMessage = ref('');
 const newGroupName = ref('');
@@ -25,29 +28,35 @@ const searchQuery = ref('');
 const users = ref([
   { id: 1, name: 'User1', avatar: '👨', online: true },
   { id: 2, name: 'User2', avatar: '👩', online: false },
-  { id: 3, name: 'User3', avatar: '🧑', online: true }
+  { id: 3, name: 'User3', avatar: '🧑', online: true },
 ]);
 
 const groups = ref([
-  { id: 'group_1', name: 'Project Team', members: [1, 2, 3], avatar: '👥' }
+  { id: 'group_1', name: 'Project Team', members: [1, 2, 3], avatar: '👥' },
 ]);
 
 const toggleChat = () => {
-  isChatOpen.value = !isChatOpen.value;
+  if (isAuthenticated) {
+    isChatOpen.value = !isChatOpen.value;
+  }
 };
 
 const selectUser = (user) => {
-  selectedUser.value = user;
-  selectedGroup.value = null;
+  if (isAuthenticated) {
+    selectedUser.value = user;
+    selectedGroup.value = null;
+  }
 };
 
 const selectGroup = (group) => {
-  selectedGroup.value = group;
-  selectedUser.value = null;
+  if (isAuthenticated) {
+    selectedGroup.value = group;
+    selectedUser.value = null;
+  }
 };
 
 const sendMessage = () => {
-  if (newMessage.value.trim() && (selectedUser.value || selectedGroup.value)) {
+  if (isAuthenticated && newMessage.value.trim() && (selectedUser.value || selectedGroup.value)) {
     const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
     messages.value[chatId].push({
       id: messages.value[chatId].length + 1,
@@ -55,7 +64,7 @@ const sendMessage = () => {
       avatar: '😊',
       text: newMessage.value,
       timestamp: new Date(),
-      reactions: []
+      reactions: [],
     });
     newMessage.value = '';
     typing.value = false;
@@ -64,18 +73,20 @@ const sendMessage = () => {
 };
 
 const startTyping = () => {
-  typing.value = true;
-  setTimeout(() => (typing.value = false), 2000);
+  if (isAuthenticated) {
+    typing.value = true;
+    setTimeout(() => (typing.value = false), 2000);
+  }
 };
 
 const createGroup = () => {
-  if (newGroupName.value.trim()) {
+  if (isAuthenticated && newGroupName.value.trim()) {
     const groupId = `group_${groups.value.length + 1}`;
     groups.value.push({
       id: groupId,
       name: newGroupName.value,
       members: [1, 2, 3], // Example: all users
-      avatar: '👥'
+      avatar: '👥',
     });
     messages.value[groupId] = [];
     newGroupName.value = '';
@@ -84,18 +95,20 @@ const createGroup = () => {
 };
 
 const addEmoji = (emoji) => {
-  newMessage.value += emoji;
+  if (isAuthenticated) {
+    newMessage.value += emoji;
+  }
 };
 
 const addReaction = (message, emoji) => {
-  if (!message.reactions.includes(emoji)) {
+  if (isAuthenticated && !message.reactions.includes(emoji)) {
     message.reactions.push(emoji);
     console.log(`Added reaction ${emoji} to message!`);
   }
 };
 
 const shareFile = (file) => {
-  if (file) {
+  if (isAuthenticated && file) {
     const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
     messages.value[chatId].push({
       id: messages.value[chatId].length + 1,
@@ -105,41 +118,41 @@ const shareFile = (file) => {
       file: URL.createObjectURL(file),
       isFile: true,
       timestamp: new Date(),
-      reactions: []
+      reactions: [],
     });
     console.log(`File shared: ${file.name}`);
   }
 };
 
 const sendVoiceMessage = () => {
-  const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
-  messages.value[chatId].push({
-    id: messages.value[chatId].length + 1,
-    sender: 'You',
-    avatar: '😊',
-    text: 'Voice message (recording not implemented)',
-    isVoice: true,
-    timestamp: new Date(),
-    reactions: []
-  });
-  console.log('Voice message placeholder sent! Actual recording requires Web Audio API.');
+  if (isAuthenticated) {
+    const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
+    messages.value[chatId].push({
+      id: messages.value[chatId].length + 1,
+      sender: 'You',
+      avatar: '😊',
+      text: 'Voice message (recording not implemented)',
+      isVoice: true,
+      timestamp: new Date(),
+      reactions: [],
+    });
+    console.log('Voice message placeholder sent! Actual recording requires Web Audio API.');
+  }
 };
 
 const deleteMessage = (chatId, messageId) => {
-  messages.value[chatId] = messages.value[chatId].filter(msg => msg.id !== messageId);
-  console.log('Message deleted!');
+  if (isAuthenticated) {
+    messages.value[chatId] = messages.value[chatId].filter((msg) => msg.id !== messageId);
+    console.log('Message deleted!');
+  }
 };
 
 const filteredUsers = computed(() => {
-  return users.value.filter(user =>
-    user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  return users.value.filter((user) => user.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
 const filteredGroups = computed(() => {
-  return groups.value.filter(group =>
-    group.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  return groups.value.filter((group) => group.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
 const formatTime = (timestamp) => {
@@ -153,21 +166,32 @@ const formatTime = (timestamp) => {
 </script>
 
 <template>
-  <div class="chat-box" :class="{ open: isChatOpen }">
+  <div class="chat-box" :class="{ open: isChatOpen, disabled: !isAuthenticated }">
     <div class="hero-section">
-      <button class="chat-toggle" @click="toggleChat">
+      <button class="chat-toggle" @click="toggleChat" :disabled="!isAuthenticated">
         <i class="fas fa-comments"></i> {{ isChatOpen ? 'Close Chat' : 'Open Chat' }}
       </button>
     </div>
     <div class="chat-content" v-if="isChatOpen">
       <div class="user-panel">
         <div class="search-bar">
-          <input v-model="searchQuery" placeholder="Search users" class="search-input" />
+          <input
+            v-model="searchQuery"
+            placeholder="Search users"
+            class="search-input"
+            :disabled="!isAuthenticated"
+          />
           <i class="fas fa-search search-icon"></i>
         </div>
         <h3>Users</h3>
         <div class="user-list">
-          <div v-for="user in filteredUsers" :key="user.id" class="user-item" :class="{ active: selectedUser && selectedUser.id === user.id }" @click="selectUser(user)">
+          <div
+            v-for="user in filteredUsers"
+            :key="user.id"
+            class="user-item"
+            :class="{ active: selectedUser && selectedUser.id === user.id }"
+            @click="selectUser(user)"
+          >
             <div class="user-content">
               <span class="user-avatar" :class="{ online: user.online }">{{ user.avatar }}</span>
               <span class="user-name">{{ user.name }}</span>
@@ -177,7 +201,13 @@ const formatTime = (timestamp) => {
         </div>
         <h3>Groups</h3>
         <div class="group-list">
-          <div v-for="group in filteredGroups" :key="group.id" class="group-item" :class="{ active: selectedGroup && selectedGroup.id === group.id }" @click="selectGroup(group)">
+          <div
+            v-for="group in filteredGroups"
+            :key="group.id"
+            class="group-item"
+            :class="{ active: selectedGroup && selectedGroup.id === group.id }"
+            @click="selectGroup(group)"
+          >
             <div class="group-content">
               <span class="group-avatar">{{ group.avatar }}</span>
               <span class="group-name">{{ group.name }}</span>
@@ -185,8 +215,13 @@ const formatTime = (timestamp) => {
           </div>
         </div>
         <div class="group-form">
-          <input v-model="newGroupName" placeholder="New Group Name" class="form-input" />
-          <button @click="createGroup" class="form-button">
+          <input
+            v-model="newGroupName"
+            placeholder="New Group Name"
+            class="form-input"
+            :disabled="!isAuthenticated"
+          />
+          <button @click="createGroup" class="form-button" :disabled="!isAuthenticated">
             <i class="fas fa-users"></i> Create Group
           </button>
         </div>
@@ -194,7 +229,12 @@ const formatTime = (timestamp) => {
       <div class="chat-messages">
         <div v-if="selectedUser || selectedGroup" class="messages-container">
           <h3 class="chat-header">{{ selectedUser ? selectedUser.name : selectedGroup.name }}</h3>
-          <div v-for="message in messages[selectedUser ? selectedUser.id : selectedGroup.id]" :key="message.id" class="message" :class="{ 'own-message': message.sender === 'You' }">
+          <div
+            v-for="message in messages[selectedUser ? selectedUser.id : selectedGroup.id]"
+            :key="message.id"
+            class="message"
+            :class="{ 'own-message': message.sender === 'You' }"
+          >
             <span class="message-avatar">{{ message.avatar }}</span>
             <div class="message-content">
               <div class="message-header">
@@ -202,16 +242,38 @@ const formatTime = (timestamp) => {
                 <span class="timestamp">{{ formatTime(message.timestamp) }}</span>
               </div>
               <p v-if="!message.isFile && !message.isVoice">{{ message.text }}</p>
-              <img v-if="message.isFile && message.file.includes('image')" :src="message.file" alt="Shared Image" class="message-media" />
-              <video v-if="message.isFile && message.file.includes('video')" :src="message.file" controls class="message-media"></video>
+              <img
+                v-if="message.isFile && message.file.includes('image')"
+                :src="message.file"
+                alt="Shared Image"
+                class="message-media"
+              />
+              <video
+                v-if="message.isFile && message.file.includes('video')"
+                :src="message.file"
+                controls
+                class="message-media"
+              ></video>
               <p v-if="message.isVoice">Voice message (recording not implemented)</p>
               <div class="reactions">
                 <span v-for="reaction in message.reactions" :key="reaction" class="reaction">{{ reaction }}</span>
               </div>
               <div class="reaction-picker">
-                <button v-for="emoji in emojis" :key="emoji" @click="addReaction(message, emoji)">{{ emoji }}</button>
+                <button
+                  v-for="emoji in emojis"
+                  :key="emoji"
+                  @click="addReaction(message, emoji)"
+                  :disabled="!isAuthenticated"
+                >
+                  {{ emoji }}
+                </button>
               </div>
-              <button v-if="message.sender === 'You'" @click="deleteMessage(selectedUser ? selectedUser.id : selectedGroup.id, message.id)" class="delete-message">
+              <button
+                v-if="message.sender === 'You'"
+                @click="deleteMessage(selectedUser ? selectedUser.id : selectedGroup.id, message.id)"
+                class="delete-message"
+                :disabled="!isAuthenticated"
+              >
                 <i class="fas fa-trash"></i>
               </button>
             </div>
@@ -220,13 +282,37 @@ const formatTime = (timestamp) => {
         </div>
         <div v-else class="no-user-selected">Select a user or group to start chatting</div>
         <div class="message-input">
-          <input v-model="newMessage" @keyup="startTyping" @keyup.enter="sendMessage" placeholder="Type a message..." class="form-input" />
+          <input
+            v-model="newMessage"
+            @keyup="startTyping"
+            @keyup.enter="sendMessage"
+            placeholder="Type a message..."
+            class="form-input"
+            :disabled="!isAuthenticated"
+          />
           <div class="emoji-picker">
-            <button v-for="emoji in emojis" :key="emoji" @click="addEmoji(emoji)">{{ emoji }}</button>
+            <button
+              v-for="emoji in emojis"
+              :key="emoji"
+              @click="addEmoji(emoji)"
+              :disabled="!isAuthenticated"
+            >
+              {{ emoji }}
+            </button>
           </div>
-          <input type="file" accept="image/*,video/*" @change="shareFile($event.target.files[0])" class="form-file" />
-          <button @click="sendVoiceMessage" class="action-button"><i class="fas fa-microphone"></i></button>
-          <button @click="sendMessage" class="action-button"><i class="fas fa-paper-plane"></i> Send</button>
+          <input
+            type="file"
+            accept="image/*,video/*"
+            @change="shareFile($event.target.files[0])"
+            class="form-file"
+            :disabled="!isAuthenticated"
+          />
+          <button @click="sendVoiceMessage" class="action-button" :disabled="!isAuthenticated">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button @click="sendMessage" class="action-button" :disabled="!isAuthenticated">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
         </div>
       </div>
     </div>
@@ -250,6 +336,11 @@ const formatTime = (timestamp) => {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chat-box.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .chat-box.open {
@@ -279,7 +370,12 @@ const formatTime = (timestamp) => {
   transition: all 0.3s ease;
 }
 
-.chat-toggle:hover {
+.chat-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.chat-toggle:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
@@ -290,7 +386,7 @@ const formatTime = (timestamp) => {
 }
 
 .user-panel {
-  width: 160px; /* Adjusted to be compact yet functional */
+  width: 160px;
   background: rgba(30, 41, 59, 0.95);
   border-right: 1px solid #3b82f6;
   padding: 15px;
@@ -321,7 +417,12 @@ const formatTime = (timestamp) => {
   transition: all 0.3s ease;
 }
 
-.search-input:focus {
+.search-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.search-input:focus:not(:disabled) {
   outline: none;
   border-color: #60a5fa;
   background: rgba(15, 23, 42, 0.9);
@@ -349,6 +450,13 @@ const formatTime = (timestamp) => {
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.3s ease;
+}
+
+.user-item:not(.active):not(:hover),
+.group-item:not(.active):not(:hover) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .user-content,
@@ -423,7 +531,12 @@ const formatTime = (timestamp) => {
   font-size: 13px;
 }
 
-.form-input:focus {
+.form-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.form-input:focus:not(:disabled) {
   outline: none;
   border-color: #60a5fa;
   background: rgba(15, 23, 42, 0.9);
@@ -446,8 +559,14 @@ const formatTime = (timestamp) => {
   transition: all 0.3s ease;
 }
 
-.form-button:hover,
-.action-button:hover {
+.form-button:disabled,
+.action-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.form-button:hover:not(:disabled),
+.action-button:hover:not(:disabled) {
   background: linear-gradient(135deg, #60a5fa, #3b82f6);
   transform: translateY(-2px);
 }
@@ -457,7 +576,7 @@ const formatTime = (timestamp) => {
   display: flex;
   flex-direction: column;
   padding: 15px;
-  overflow: hidden; /* Ensure content stays within bounds */
+  overflow: hidden;
 }
 
 .chat-header {
@@ -515,7 +634,7 @@ const formatTime = (timestamp) => {
   border-radius: 8px;
   max-width: 65%;
   position: relative;
-  word-break: break-word; /* Prevent text overflow */
+  word-break: break-word;
 }
 
 .own-message .message-content {
@@ -575,7 +694,12 @@ const formatTime = (timestamp) => {
   transition: transform 0.2s ease;
 }
 
-.reaction-picker button:hover {
+.reaction-picker button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.reaction-picker button:hover:not(:disabled) {
   transform: scale(1.2);
 }
 
@@ -590,7 +714,12 @@ const formatTime = (timestamp) => {
   transition: all 0.3s ease;
 }
 
-.delete-message:hover {
+.delete-message:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.delete-message:hover:not(:disabled) {
   color: #f87171;
 }
 
@@ -627,12 +756,17 @@ const formatTime = (timestamp) => {
   gap: 8px;
   margin-top: 10px;
   align-items: center;
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  flex-wrap: wrap;
 }
 
 .form-file {
   color: #f9fafb;
   font-size: 13px;
+}
+
+.form-file:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .emoji-picker {
@@ -648,7 +782,12 @@ const formatTime = (timestamp) => {
   transition: transform 0.2s ease;
 }
 
-.emoji-picker button:hover {
+.emoji-picker button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.emoji-picker button:hover:not(:disabled) {
   transform: scale(1.2);
 }
 
@@ -665,7 +804,7 @@ const formatTime = (timestamp) => {
   color: #1f2937;
 }
 
-.light-mode .chat-toggle:hover {
+.light-mode .chat-toggle:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.2);
 }
 
@@ -711,8 +850,8 @@ const formatTime = (timestamp) => {
   border: 1px solid #3b82f6;
 }
 
-.light-mode .form-input:focus,
-.light-mode .search-input:focus {
+.light-mode .form-input:focus:not(:disabled),
+.light-mode .search-input:focus:not(:disabled) {
   border-color: #60a5fa;
   background: rgba(243, 244, 246, 0.9);
 }
@@ -723,8 +862,8 @@ const formatTime = (timestamp) => {
   color: #1f2937;
 }
 
-.light-mode .form-button:hover,
-.light-mode .action-button:hover {
+.light-mode .form-button:hover:not(:disabled),
+.light-mode .action-button:hover:not(:disabled) {
   background: linear-gradient(135deg, #60a5fa, #3b82f6);
 }
 
@@ -749,7 +888,7 @@ const formatTime = (timestamp) => {
   color: #ef4444;
 }
 
-.light-mode .delete-message:hover {
+.light-mode .delete-message:hover:not(:disabled) {
   color: #f87171;
 }
 

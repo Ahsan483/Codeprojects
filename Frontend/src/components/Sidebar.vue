@@ -1,19 +1,52 @@
-<!-- Sidebar.vue -->
 <template>
   <aside class="sidebar">
     <div class="sidebar-logo">Code Projects</div>
     <ul class="sidebar-list">
-      <li class="sidebar-item"><router-link to="/"><i class="fas fa-home"></i> Home</router-link></li>
-      <li class="sidebar-item"><router-link to="/projects"><i class="fas fa-code"></i> Projects</router-link></li>
-      <li class="sidebar-item"><router-link to="/orders"><i class="fas fa-shopping-cart"></i> Orders</router-link></li>
-      <li class="sidebar-item"><router-link to="/posts"><i class="fas fa-scroll"></i> Posts</router-link></li>
-      <li class="sidebar-item"><router-link to="/courses"><i class="fas fa-book"></i> Courses</router-link></li>
-      <li class="sidebar-item"><router-link to="/messages"><i class="fas fa-message"></i> Messages</router-link></li>
-      <li class="sidebar-item"><router-link to="/settings"><i class="fas fa-cog"></i> Settings</router-link></li>
-      <li class="sidebar-item"><router-link to="/logout"><i class="fas fa-sign-out-alt"></i> Logout</router-link></li>
+      <li class="sidebar-item">
+        <router-link :to="isAuthenticated ? '/' : '#'">
+          <i class="fas fa-home"></i> Home
+        </router-link>
+      </li>
+      <li class="sidebar-item">
+        <router-link :to="isAuthenticated ? '/projects' : '#'">
+          <i class="fas fa-code"></i> Your Projects
+        </router-link>
+      </li>
+      <li class="sidebar-item">
+        <router-link :to="isAuthenticated ? '/orders' : '#'">
+          <i class="fas fa-shopping-cart"></i> Orders
+        </router-link>
+      </li>
+      <li class="sidebar-item">
+        <router-link :to="isAuthenticated ? '/posts' : '#'">
+          <i class="fas fa-upload"></i> Upload
+        </router-link>
+      </li>
+      <li class="sidebar-item">
+        <router-link :to="isAuthenticated ? '/messages' : '#'">
+          <i class="fas fa-message"></i> Messages
+        </router-link>
+      </li>
+      <li class="sidebar-item">
+        <router-link :to="isAuthenticated ? '/settings' : '#'">
+          <i class="fas fa-cog"></i> Settings
+        </router-link>
+      </li>
+      <li v-if="isAuthenticated" class="sidebar-item">
+        <a href="#" @click.prevent="$emit('logout')">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
     </ul>
   </aside>
 </template>
+
+<script setup>
+defineProps({
+  isAuthenticated: Boolean,
+});
+defineEmits(['logout']);
+</script>
 
 <style scoped>
 .sidebar {
@@ -34,14 +67,14 @@
   text-align: center;
   padding: 20px;
   background-image: linear-gradient(0.15turn, #ffffff, #dfc327, #00ffaa);
-  -webkit-background-clip: text; 
+  -webkit-background-clip: text;
   background-clip: text;
-  color: transparent; 
+  color: transparent;
   transition: background-image 0.3s ease;
 }
 
 .sidebar-logo:hover {
-  background-image: linear-gradient(0.25turn, #3b82f6, #ebf8e1, #f69d3c); 
+  background-image: linear-gradient(0.25turn, #3b82f6, #ebf8e1, #f69d3c);
 }
 
 .sidebar-list {
@@ -71,6 +104,12 @@
   background: rgba(59, 130, 246, 0.1);
   padding-left: 10px;
   transform: translateX(5px);
+}
+
+.sidebar-item a[href='#'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none; /* Disable clicks for unauthenticated users */
 }
 
 /* Light mode styles */
