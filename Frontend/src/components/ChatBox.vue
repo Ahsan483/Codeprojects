@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-defineProps({
+const props = defineProps({
   isAuthenticated: Boolean,
 });
 
@@ -36,27 +36,27 @@ const groups = ref([
 ]);
 
 const toggleChat = () => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     isChatOpen.value = !isChatOpen.value;
   }
 };
 
 const selectUser = (user) => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     selectedUser.value = user;
     selectedGroup.value = null;
   }
 };
 
 const selectGroup = (group) => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     selectedGroup.value = group;
     selectedUser.value = null;
   }
 };
 
 const sendMessage = () => {
-  if (isAuthenticated && newMessage.value.trim() && (selectedUser.value || selectedGroup.value)) {
+  if (props.isAuthenticated && newMessage.value.trim() && (selectedUser.value || selectedGroup.value)) {
     const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
     messages.value[chatId].push({
       id: messages.value[chatId].length + 1,
@@ -73,14 +73,14 @@ const sendMessage = () => {
 };
 
 const startTyping = () => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     typing.value = true;
     setTimeout(() => (typing.value = false), 2000);
   }
 };
 
 const createGroup = () => {
-  if (isAuthenticated && newGroupName.value.trim()) {
+  if (props.isAuthenticated && newGroupName.value.trim()) {
     const groupId = `group_${groups.value.length + 1}`;
     groups.value.push({
       id: groupId,
@@ -95,20 +95,20 @@ const createGroup = () => {
 };
 
 const addEmoji = (emoji) => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     newMessage.value += emoji;
   }
 };
 
 const addReaction = (message, emoji) => {
-  if (isAuthenticated && !message.reactions.includes(emoji)) {
+  if (props.isAuthenticated && !message.reactions.includes(emoji)) {
     message.reactions.push(emoji);
     console.log(`Added reaction ${emoji} to message!`);
   }
 };
 
 const shareFile = (file) => {
-  if (isAuthenticated && file) {
+  if (props.isAuthenticated && file) {
     const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
     messages.value[chatId].push({
       id: messages.value[chatId].length + 1,
@@ -125,7 +125,7 @@ const shareFile = (file) => {
 };
 
 const sendVoiceMessage = () => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     const chatId = selectedUser.value ? selectedUser.value.id : selectedGroup.value.id;
     messages.value[chatId].push({
       id: messages.value[chatId].length + 1,
@@ -141,7 +141,7 @@ const sendVoiceMessage = () => {
 };
 
 const deleteMessage = (chatId, messageId) => {
-  if (isAuthenticated) {
+  if (props.isAuthenticated) {
     messages.value[chatId] = messages.value[chatId].filter((msg) => msg.id !== messageId);
     console.log('Message deleted!');
   }
@@ -166,9 +166,9 @@ const formatTime = (timestamp) => {
 </script>
 
 <template>
-  <div class="chat-box" :class="{ open: isChatOpen, disabled: !isAuthenticated }">
+  <div class="chat-box" :class="{ open: isChatOpen, disabled: !props.isAuthenticated }">
     <div class="hero-section">
-      <button class="chat-toggle" @click="toggleChat" :disabled="!isAuthenticated">
+      <button class="chat-toggle" @click="toggleChat" :disabled="!props.isAuthenticated">
         <i class="fas fa-comments"></i> {{ isChatOpen ? 'Close Chat' : 'Open Chat' }}
       </button>
     </div>
@@ -179,7 +179,7 @@ const formatTime = (timestamp) => {
             v-model="searchQuery"
             placeholder="Search users"
             class="search-input"
-            :disabled="!isAuthenticated"
+            :disabled="!props.isAuthenticated"
           />
           <i class="fas fa-search search-icon"></i>
         </div>
@@ -219,9 +219,9 @@ const formatTime = (timestamp) => {
             v-model="newGroupName"
             placeholder="New Group Name"
             class="form-input"
-            :disabled="!isAuthenticated"
+            :disabled="!props.isAuthenticated"
           />
-          <button @click="createGroup" class="form-button" :disabled="!isAuthenticated">
+          <button @click="createGroup" class="form-button" :disabled="!props.isAuthenticated">
             <i class="fas fa-users"></i> Create Group
           </button>
         </div>
@@ -263,7 +263,7 @@ const formatTime = (timestamp) => {
                   v-for="emoji in emojis"
                   :key="emoji"
                   @click="addReaction(message, emoji)"
-                  :disabled="!isAuthenticated"
+                  :disabled="!props.isAuthenticated"
                 >
                   {{ emoji }}
                 </button>
@@ -272,7 +272,7 @@ const formatTime = (timestamp) => {
                 v-if="message.sender === 'You'"
                 @click="deleteMessage(selectedUser ? selectedUser.id : selectedGroup.id, message.id)"
                 class="delete-message"
-                :disabled="!isAuthenticated"
+                :disabled="!props.isAuthenticated"
               >
                 <i class="fas fa-trash"></i>
               </button>
@@ -288,14 +288,14 @@ const formatTime = (timestamp) => {
             @keyup.enter="sendMessage"
             placeholder="Type a message..."
             class="form-input"
-            :disabled="!isAuthenticated"
+            :disabled="!props.isAuthenticated"
           />
           <div class="emoji-picker">
             <button
               v-for="emoji in emojis"
               :key="emoji"
               @click="addEmoji(emoji)"
-              :disabled="!isAuthenticated"
+              :disabled="!props.isAuthenticated"
             >
               {{ emoji }}
             </button>
@@ -305,12 +305,12 @@ const formatTime = (timestamp) => {
             accept="image/*,video/*"
             @change="shareFile($event.target.files[0])"
             class="form-file"
-            :disabled="!isAuthenticated"
+            :disabled="!props.isAuthenticated"
           />
-          <button @click="sendVoiceMessage" class="action-button" :disabled="!isAuthenticated">
+          <button @click="sendVoiceMessage" class="action-button" :disabled="!props.isAuthenticated">
             <i class="fas fa-microphone"></i>
           </button>
-          <button @click="sendMessage" class="action-button" :disabled="!isAuthenticated">
+          <button @click="sendMessage" class="action-button" :disabled="!props.isAuthenticated">
             <i class="fas fa-paper-plane"></i> Send
           </button>
         </div>

@@ -19,7 +19,7 @@ onMounted(async () => {
   if (authToken) {
     try {
       const response = await axios.get('http://localhost:5000/api/auth/me', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${authToken}` },
       });
       user.value = response.data;
       console.log('Auto-logged in:', user.value);
