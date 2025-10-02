@@ -7,6 +7,8 @@ import Courses from '../views/Courses.vue';
 import Requests from '../views/Requests.vue';
 import Settings from '../views/Settings.vue';
 import Profile from '../views/Profile.vue';
+import SignIn from '../views/SignIn.vue';
+
 import axios from 'axios';
 
 const routes = [
@@ -18,6 +20,7 @@ const routes = [
   { path: '/requests', component: Requests, meta: { requiresAuth: true } },
   { path: '/settings', component: Settings, meta: { requiresAuth: true } },
   { path: '/profile', component: Profile, meta: { requiresAuth: true } },
+  { path: '/signin', component: SignIn, meta: { requiresAuth: false } }, 
   { path: '/:pathMatch(.*)*', redirect: '/' }, 
 ];
 
@@ -38,10 +41,10 @@ router.beforeEach(async (to, from, next) => {
       } catch (error) {
         console.error('Token verification failed:', error);
         localStorage.removeItem('authToken');
-        next('/');
+        next('/signin');
       }
     } else {
-      next('/'); 
+      next('/signin'); 
     }
   } else {
     next();

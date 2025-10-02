@@ -46,7 +46,7 @@ const handleSignIn = async () => {
 
 input {
   display: block;
-  width: 100%;
+  width: 95%;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
