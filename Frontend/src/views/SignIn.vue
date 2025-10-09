@@ -7,7 +7,7 @@ const email = ref('');
 const password = ref('');
 const error = ref('');
 const router = useRouter();
-asas
+
 const handleSignIn = async () => {
   try {
     const response = await axios.post('http://localhost:5000/api/auth/login', {
