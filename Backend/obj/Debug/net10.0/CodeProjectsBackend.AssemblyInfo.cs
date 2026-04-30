@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CodeProjectsBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89acbd0ae355be3dc41e73ada7f9487f83d34c89")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a64f19a575a5d242701455c2f2dc6253e782be6")]
 [assembly: System.Reflection.AssemblyProductAttribute("CodeProjectsBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CodeProjectsBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
