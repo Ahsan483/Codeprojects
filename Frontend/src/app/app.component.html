@@ -1,480 +1,262 @@
+<div class="circuit-bg-overlay"></div>
+
+<!-- Crazy Fast Circuits & Sparkles (Global Background) -->
+<div class="fast-circuit-v" style="left: 10%; animation-delay: 0s;"></div>
+<div class="fast-circuit-v" style="left: 30%; animation-delay: 0.5s;"></div>
+<div class="fast-circuit-v" style="left: 70%; animation-delay: 1.2s;"></div>
+<div class="fast-circuit-v" style="left: 90%; animation-delay: 0.8s;"></div>
+
+<div class="fast-circuit-h" style="top: 20%; animation-delay: 0.2s;"></div>
+<div class="fast-circuit-h" style="top: 50%; animation-delay: 1.5s;"></div>
+<div class="fast-circuit-h" style="top: 80%; animation-delay: 0.7s;"></div>
+
+<!-- Sparkle Particles at junctions -->
+<div class="sparkle-particle" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+<div class="sparkle-particle" style="top: 50%; left: 30%; animation-delay: 0.5s;"></div>
+<div class="sparkle-particle" style="top: 80%; left: 70%; animation-delay: 1s;"></div>
+<div class="sparkle-particle" style="top: 20%; left: 90%; animation-delay: 1.5s;"></div>
+
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark position-absolute w-100 py-4"
-  style="z-index: 1000; background-color: rgba(0, 0, 0, 0.9) !important; backdrop-filter: blur(8px); box-shadow: 0 2px 15px rgba(0,230,168,0.1);">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="assets/logo.png" alt="Code Projects Logo" height="35" class="me-2">
-    </a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav align-items-center">
-        <li class="nav-item"><a class="nav-link text-white px-3" href="#services">Services</a></li>
-        <li class="nav-item"><a class="nav-link text-white px-3" href="#portfolio">Portfolio</a></li>
-        <li class="nav-item"><a class="nav-link text-white px-3" href="#about">About</a></li>
-        <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-          <a class="btn btn-accent w-100" href="#contact">Let's Talk</a>
-        </li>
-      </ul>
+<nav class="navbar-custom" [class.scrolled]="isScrolled" id="navbar">
+  <div class="nav-container">
+    <div class="logo-wrap">
+      <img src="assets/logo.png" alt="Logo" class="logo-img" />
     </div>
+    
+    <ul class="nav-links" [class.active]="isMobileMenuOpen">
+      <li><a href="#services" (click)="isMobileMenuOpen = false">SERVICES</a></li>
+      <li><a href="#portfolio" (click)="isMobileMenuOpen = false">PORTFOLIO</a></li>
+      <li><a href="#about" (click)="isMobileMenuOpen = false">ABOUT</a></li>
+      <li><a href="#contact" (click)="isMobileMenuOpen = false">CONTACT</a></li>
+    </ul>
+
+    <button class="nav-toggle" (click)="toggleMobileMenu()">
+      <i class="fas" [class.fa-bars]="!isMobileMenuOpen" [class.fa-times]="isMobileMenuOpen"></i>
+    </button>
   </div>
 </nav>
 
-<!-- 1. HERO SECTION -->
-<section class="hero-section text-center position-relative">
-  <div class="hero-glow"></div>
-  <div class="container position-relative" style="z-index: 2;">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10 px-4">
-        <h1 class="hero-title mb-4">
-          We build scalable web apps for startups in <span class="text-accent">2 to 4 weeks</span>
-        </h1>
-        <p class="mb-5 text-muted px-lg-5" style="font-size: 1.15rem;">
-          Helping founders launch fast using .NET & Angular. We turn your ideas into functional, beautiful realities
-          without the long wait.
+<!-- Hero Section -->
+<section class="hero-wrap">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        ELITE <br>
+        <span style="color: var(--primary)">AUTOMATION</span> SYSTEMS
+      </h1>
+      <p class="hero-sub">
+        High-performance web apps, AI, and scalable pcb-inspired automation systems designed for extreme efficiency.
+      </p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="#contact" class="btn-core btn-primary-core">
+          INITIALIZE <i class="fas fa-bolt"></i>
+        </a>
+        <a href="#portfolio" class="btn-core btn-secondary-core">
+          ARCHIVE
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 3D Abstract Circuit Visual with Electric Flow -->
+  <div class="hero-visual">
+    <svg viewBox="0 0 500 500" width="100%" height="100%">
+      <defs>
+        <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0" />
+          <stop offset="50%" style="stop-color:var(--primary);stop-opacity:1" />
+          <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0" />
+        </linearGradient>
+      </defs>
+      <!-- Electric Current Traces -->
+      <path d="M50,250 L150,250 L200,150 L350,150 L400,250 L450,250" fill="none" stroke="url(#flowGrad)" stroke-width="3" class="electric-line" />
+      <path d="M50,300 L120,300 L180,400 L320,400 L380,300 L450,300" fill="none" stroke="var(--primary)" stroke-width="1.5" opacity="0.4" stroke-dasharray="10 5" />
+      
+      <!-- Junction Nodes -->
+      <circle cx="200" cy="150" r="4" fill="var(--primary)">
+        <animate attributeName="r" values="4;6;4" dur="1s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="350" cy="150" r="4" fill="var(--primary)">
+        <animate attributeName="r" values="4;6;4" dur="1.2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="180" cy="400" r="3" fill="var(--secondary)">
+         <animate attributeName="opacity" values="1;0.2;1" dur="0.8s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="section-wrap">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h2 class="section-title">CORE PROTOCOLS</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+      <div class="chip-card">
+        <div class="chip-icon"><i class="fas fa-microchip"></i></div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">MVP ENGINE</h3>
+        <p style="color: var(--text-dim); font-size: 0.85rem;">Rapid deployment of core logic. Built for speed and market validation.</p>
+      </div>
+
+      <div class="chip-card">
+        <div class="chip-icon"><i class="fas fa-network-wired"></i></div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">SCALABLE ARCH</h3>
+        <p style="color: var(--text-dim); font-size: 0.85rem;">Robust .NET & Angular systems designed for global horizontal scaling.</p>
+      </div>
+
+      <div class="chip-card">
+        <div class="chip-icon"><i class="fas fa-brain"></i></div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">AI SYNAPSE</h3>
+        <p style="color: var(--text-dim); font-size: 0.85rem;">Neural-network integration for automated decision-making pipelines.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio Section -->
+<section id="portfolio" class="section-wrap" style="background: var(--bg-surface);">
+  <div class="container">
+    <div style="margin-bottom: 3rem;">
+      <h2 class="section-title">PROJECT LOGS</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+      <div class="chip-card" style="padding: 0;">
+        <div style="height: 160px; background: #0c0c0c; display: flex; align-items: center; justify-content: center; position: relative;">
+          <div style="position: absolute; inset: 0; background: radial-gradient(var(--primary-glow), transparent); opacity: 0.3;"></div>
+          <i class="fas fa-chart-pie" style="font-size: 3rem; color: var(--primary);"></i>
+        </div>
+        <div style="padding: 1.5rem;">
+          <h4 style="font-size: 0.9rem; margin-bottom: 0.8rem;">QUANTUM DASHBOARD</h4>
+          <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 1.2rem;">Real-time analytics handling 10k+ events/sec.</p>
+          <div style="display: flex; gap: 0.8rem;">
+            <a href="#" class="btn-core btn-secondary-core" style="padding: 0.5rem 1rem; font-size: 0.7rem;">SRC</a>
+            <a href="#" class="btn-core btn-primary-core" style="padding: 0.5rem 1rem; font-size: 0.7rem;">LIVE</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="chip-card" style="padding: 0;">
+        <div style="height: 160px; background: #0c0c0c; display: flex; align-items: center; justify-content: center; position: relative;">
+          <div style="position: absolute; inset: 0; background: radial-gradient(var(--secondary-glow), transparent); opacity: 0.3;"></div>
+          <i class="fas fa-shopping-cart" style="font-size: 3rem; color: var(--secondary);"></i>
+        </div>
+        <div style="padding: 1.5rem;">
+          <h4 style="font-size: 0.9rem; margin-bottom: 0.8rem;">NEXUS COMMERCE</h4>
+          <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 1.2rem;">Automated B2B supply chain management portal.</p>
+          <div style="display: flex; gap: 0.8rem;">
+            <a href="#" class="btn-core btn-secondary-core" style="padding: 0.5rem 1rem; font-size: 0.7rem;">SRC</a>
+            <a href="#" class="btn-core btn-primary-core" style="padding: 0.5rem 1rem; font-size: 0.7rem;">LIVE</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section-wrap">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; align-items: center;">
+      <div>
+        <h2 class="section-title">ENGINEERING MANIFESTO</h2>
+        <p style="color: var(--text-main); font-size: 0.95rem; margin-bottom: 1.5rem;">Digital precision at the hardware-logic level.</p>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; gap: 1rem;">
+            <i class="fas fa-bolt" style="color: var(--primary); margin-top: 0.2rem;"></i>
+            <div>
+              <strong style="display: block; color: #fff; font-size: 0.85rem;">ULTRA-FAST BOOT</strong>
+              <span style="color: var(--text-dim); font-size: 0.8rem;">Development cycle completed in 14-21 days.</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <i class="fas fa-code-branch" style="color: var(--primary); margin-top: 0.2rem;"></i>
+            <div>
+              <strong style="display: block; color: #fff; font-size: 0.85rem;">STABLE DEPLOYMENT</strong>
+              <span style="color: var(--text-dim); font-size: 0.8rem;">99.9% uptime guaranteed architecture.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chip-card" style="border-top: 2px solid var(--primary);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <img src="assets/profile.png" alt="Ahsan Mehmood" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover;">
+          <div>
+            <h4 style="margin: 0; font-size: 1rem;">AHSAN MEHMOOD</h4>
+            <span style="color: var(--primary); font-size: 0.7rem; font-family: var(--accent-font);">CHIEF ARCHITECT</span>
+          </div>
+        </div>
+        <p style="color: var(--text-dim); font-size: 0.85rem; font-style: italic;">
+          "Code is just current channeled through logic gates. We specialize in channeling it perfectly."
         </p>
-        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-          <a href="#contact" class="btn btn-accent">Get a Free Consultation</a>
-          <a href="#portfolio" class="btn btn-outline-light">View Work</a>
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 2. SERVICES SECTION -->
-<section id="services" class="section-padding bg-darker">
-  <div class="container px-4">
-    <div class="text-center mb-5">
-      <h2 class="section-title">Our Core Services</h2>
-      <p class="text-muted">Focused on outcomes, built for speed and scale.</p>
-    </div>
-
-    <div class="row g-4 justify-content-center">
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card h-100">
-          <i class="fas fa-rocket text-accent fa-2x mb-4"></i>
-          <h3 class="h5 mb-3 text-white">MVP Development</h3>
-          <p class="text-muted mb-0" style="font-size: 0.95rem;">Launch your core product fast to validate your idea and
-            start getting users. Focus on what matters, ignore the fluff.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card h-100">
-          <i class="fas fa-code text-accent fa-2x mb-4"></i>
-          <h3 class="h5 mb-3 text-white">Web App Development</h3>
-          <p class="text-muted mb-0" style="font-size: 0.95rem;">Custom, secure, and scalable web applications tailored
-            to your business needs, powered by robust .NET backends.</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card h-100">
-          <i class="fas fa-bolt text-accent fa-2x mb-4"></i>
-          <h3 class="h5 mb-3 text-white">Bug Fixing & Optimization</h3>
-          <p class="text-muted mb-0" style="font-size: 0.95rem;">Is your current app slow or buggy? We dive in, fix the
-            core issues, and optimize performance for a seamless experience.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 3. PORTFOLIO SECTION -->
-<section id="portfolio" class="section-padding">
-  <div class="container px-4">
-    <div class="text-center mb-5">
-      <h2 class="section-title">Featured Work</h2>
-      <p class="text-muted">A glimpse into what we can build together</p>
-    </div>
-
-    <div class="row g-4">
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column project-card">
-          <div style="height: 180px; background: linear-gradient(135deg, #00e6a8 0%, #00a878 100%); display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-chart-line fa-3x text-white opacity-75"></i>
+<!-- Contact Section -->
+<section id="contact" class="section-wrap" style="background: var(--bg-surface);">
+  <div class="container">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem;">
+      <div>
+        <h2 class="section-title">UPLINK</h2>
+        <p style="color: var(--text-dim); margin-bottom: 2rem; font-size: 0.9rem;">Initiate secure data transmission for project requests.</p>
+        
+        <div style="display: grid; gap: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 40px; height: 40px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--primary); border: 1px solid var(--border-dim);">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <label>CHANNEL</label>
+              <span style="color: #fff; font-size: 0.85rem;">codeprojectsofficial&#64;gmail.com</span>
+            </div>
           </div>
-          <div class="p-4 flex-grow-1 d-flex flex-column">
-            <h4 class="h6 mb-2 text-white">SaaS Dashboard</h4>
-            <p class="text-muted mb-4" style="font-size: 0.9rem;">Admin dashboard with robust authentication, role management, and real-time analytics. Built with .NET & Angular.</p>
-            <div class="mt-auto d-flex gap-2">
-              <a href="https://github.com/your-username/saas-dashboard" target="_blank" class="btn btn-sm btn-outline-accent flex-grow-1">
-                <i class="fab fa-github me-1"></i>View Code
-              </a>
-              <a href="#contact" class="btn btn-sm btn-accent flex-grow-1">View Demo</a>
+          
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 40px; height: 40px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; border-radius: 4px; color: var(--primary); border: 1px solid var(--border-dim);">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <div>
+              <label>DIRECT</label>
+              <span style="color: #fff; font-size: 0.85rem;">+92 308 6169699</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column project-card">
-          <div style="height: 180px; background: linear-gradient(135deg, #00e6a8 0%, #00a878 100%); display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-shopping-cart fa-3x text-white opacity-75"></i>
-          </div>
-          <div class="p-4 flex-grow-1 d-flex flex-column">
-            <h4 class="h6 mb-2 text-white">E-Commerce API</h4>
-            <p class="text-muted mb-4" style="font-size: 0.9rem;">High-performance B2B portal with secure payment gateways and inventory sync, handling 1k+ daily transactions.</p>
-            <div class="mt-auto d-flex gap-2">
-              <a href="https://github.com/your-username/ecommerce-api" target="_blank" class="btn btn-sm btn-outline-accent flex-grow-1">
-                <i class="fab fa-github me-1"></i>View Code
-              </a>
-              <a href="#contact" class="btn btn-sm btn-accent flex-grow-1">View Demo</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column project-card">
-          <div style="height: 180px; background: linear-gradient(135deg, #00e6a8 0%, #00a878 100%); display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-mobile-alt fa-3x text-white opacity-75"></i>
-          </div>
-          <div class="p-4 flex-grow-1 d-flex flex-column">
-            <h4 class="h6 mb-2 text-white">Booking System</h4>
-            <p class="text-muted mb-4" style="font-size: 0.9rem;">Responsive scheduling app for healthcare, featuring appointment management, notifications, and patient portal. Shipped in 3 weeks.</p>
-            <div class="mt-auto d-flex gap-2">
-              <a href="https://github.com/your-username/booking-system" target="_blank" class="btn btn-sm btn-outline-accent flex-grow-1">
-                <i class="fab fa-github me-1"></i>View Code
-              </a>
-              <a href="#contact" class="btn btn-sm btn-accent flex-grow-1">View Demo</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 4. SOCIAL PROOF -->
-<section class="section-padding bg-darker">
-  <div class="container px-4">
-    <div class="row align-items-center">
-      <div class="col-12 text-center mb-5">
-        <h3 class="h4 text-white">Trusted by fast-growing startups & entrepreneurs</h3>
-        <p class="text-muted mb-0" style="font-size: 0.95rem;">Worked with 10+ successful projects from concept to launch</p>
-      </div>
-
-      <div class="col-lg-8 mx-auto">
-        <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-          <div class="carousel-inner">
-            <!-- Review 1 -->
-            <div class="carousel-item active">
-              <div class="glass-card text-center p-5">
-                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
-                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
-                  The team delivered exactly what we needed. The web app was fast, the code was clean, and they completed the MVP weeks ahead of schedule. Highly recommended if you want to move quickly.
-                </p>
-                <div class="d-flex align-items-center justify-content-center gap-3">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" alt="Client"
-                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-                  <div class="text-start">
-                    <h5 class="mb-0 h6 text-white">Ahmed Khan</h5>
-                    <small class="text-accent">Startup Founder</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Review 2 -->
-            <div class="carousel-item">
-              <div class="glass-card text-center p-5">
-                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
-                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
-                  Exceptional work quality and communication. They understood our requirements perfectly and delivered a production-ready solution. The whole process was smooth and professional.
-                </p>
-                <div class="d-flex align-items-center justify-content-center gap-3">
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop" alt="Client"
-                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-                  <div class="text-start">
-                    <h5 class="mb-0 h6 text-white">Sarah Mitchell</h5>
-                    <small class="text-accent">CEO, TechVentures</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Review 3 -->
-            <div class="carousel-item">
-              <div class="glass-card text-center p-5">
-                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
-                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
-                  Their expertise in .NET and Angular is unmatched. They didn't just build the app, they optimized it for performance and scalability. Best investment we made for our startup.
-                </p>
-                <div class="d-flex align-items-center justify-content-center gap-3">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" alt="Client"
-                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-                  <div class="text-start">
-                    <h5 class="mb-0 h6 text-white">Marcus Johnson</h5>
-                    <small class="text-accent">Product Manager</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Review 4 -->
-            <div class="carousel-item">
-              <div class="glass-card text-center p-5">
-                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
-                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
-                  Fast, reliable, and incredibly professional. They turned our complex requirements into a beautiful, functional application. Would definitely work with them again.
-                </p>
-                <div class="d-flex align-items-center justify-content-center gap-3">
-                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop" alt="Client"
-                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-                  <div class="text-start">
-                    <h5 class="mb-0 h6 text-white">Emma Rodriguez</h5>
-                    <small class="text-accent">Founder, StartupLabs</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Carousel Controls -->
-          <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <div class="chip-card">
+        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+          <label>IDENTIFIER</label>
+          <input type="text" class="form-input" placeholder="Full Name" name="name" [(ngModel)]="contactData.name" required>
+          
+          <label>COORDINATES</label>
+          <input type="email" class="form-input" placeholder="Email Address" name="email" [(ngModel)]="contactData.email" required>
+          
+          <label>TRANSMISSION</label>
+          <textarea class="form-input" rows="4" placeholder="Message content..." name="message" [(ngModel)]="contactData.message" required></textarea>
+          
+          <button type="submit" class="btn-core btn-primary-core" style="width: 100%; justify-content: center;" [disabled]="contactForm.invalid || isSubmitting">
+            {{ isSubmitting ? 'TRANSMITTING...' : 'INITIATE SEND' }}
           </button>
 
-          <!-- Carousel Indicators -->
-          <div class="carousel-indicators mt-4">
-            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="0" class="active bg-accent"
-              aria-current="true"></button>
-            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="1" class="bg-accent"></button>
-            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="2" class="bg-accent"></button>
-            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="3" class="bg-accent"></button>
+          <div *ngIf="submitSuccess" style="margin-top: 1rem; color: var(--primary); font-family: var(--accent-font); font-size: 0.75rem; text-align: center;">
+            <i class="fas fa-check-circle"></i> TRANSMISSION COMPLETE
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 5. ABOUT SECTION -->
-<section id="about" class="section-padding">
-  <div class="container px-4">
-    <div class="row align-items-center">
-      <div class="col-lg-5 mb-5 mb-lg-0">
-        <div class="glass-card p-5">
-          <h4 class="h5 text-white mb-4">Why Choose Code Projects?</h4>
-          <div class="mb-4">
-            <div class="d-flex gap-3 mb-3">
-              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
-              <div>
-                <h6 class="text-white mb-1">Fast Delivery</h6>
-                <p class="text-muted m-0" style="font-size: 0.9rem;">MVP in 2-4 weeks, not months</p>
-              </div>
-            </div>
-            <div class="d-flex gap-3 mb-3">
-              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
-              <div>
-                <h6 class="text-white mb-1">Expert Team</h6>
-                <p class="text-muted m-0" style="font-size: 0.9rem;">Full-stack developers with 6+ years experience</p>
-              </div>
-            </div>
-            <div class="d-flex gap-3 mb-3">
-              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
-              <div>
-                <h6 class="text-white mb-1">Scalable Architecture</h6>
-                <p class="text-muted m-0" style="font-size: 0.9rem;">Built to grow with your business</p>
-              </div>
-            </div>
-            <div class="d-flex gap-3 mb-3">
-              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
-              <div>
-                <h6 class="text-white mb-1">Clean Code</h6>
-                <p class="text-muted m-0" style="font-size: 0.9rem;">Maintainable, documented, production-ready</p>
-              </div>
-            </div>
-            <div class="d-flex gap-3">
-              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
-              <div>
-                <h6 class="text-white mb-1">Transparent Communication</h6>
-                <p class="text-muted m-0" style="font-size: 0.9rem;">Regular updates, no surprises</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-7">
-        <h2 class="section-title">About Code Projects</h2>
-        <p class="mb-4 text-white" style="font-size: 1.1rem;">
-          Code Projects was founded with a simple mission: <span class="text-accent fw-bold">help startups launch faster without compromising on quality.</span>
-        </p>
-        <p class="text-muted mb-3" style="font-size: 0.95rem;">
-          We started because we saw founders struggling with slow development timelines and inflated budgets. Most agencies prioritize lengthy contracts over delivering results. We're different.
-        </p>
-        <p class="text-muted mb-4" style="font-size: 0.95rem;">
-          Since our inception, we've successfully delivered 10+ production applications using modern tech stacks (.NET, Angular, Cloud). Our approach combines enterprise-grade architecture with startup speed, ensuring your application is built to scale from day one.
-        </p>
-        <div class="d-flex gap-3">
-          <div>
-            <h5 class="text-accent h4 fw-bold">10+</h5>
-            <small class="text-muted">Successful Projects</small>
-          </div>
-          <div>
-            <h5 class="text-accent h4 fw-bold">50+</h5>
-            <small class="text-muted">Happy Clients</small>
-          </div>
-          <div>
-            <h5 class="text-accent h4 fw-bold">4 Weeks</h5>
-            <small class="text-muted">Avg Delivery</small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 5B. MEET THE TEAM SECTION -->
-<section class="section-padding bg-darker">
-  <div class="container px-4">
-    <div class="text-center mb-5">
-      <h2 class="section-title">Meet the Team</h2>
-      <p class="text-muted">Experienced professionals dedicated to your success</p>
-    </div>
-
-    <div class="row g-4 justify-content-center">
-      <!-- Team Member 1 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card text-center p-5 team-card">
-          <img src="../assets/profile.png" alt="CEO"
-            class="rounded-circle mb-4 border border-3 border-accent"
-            style="width: 140px; height: 140px; object-fit: cover;">
-          <h4 class="h5 text-white mb-1">Ahsan Mehmood</h4>
-          <p class="text-accent fw-bold mb-3">Founder & CEO</p>
-          <p class="text-muted mb-4" style="font-size: 0.9rem;">
-            Full-stack developer with 6+ years building enterprise applications. Passionate about turning ideas into scalable products.
-          </p>
-          <div class="d-flex justify-content-center gap-2">
-            <a href="https://linkedin.com" target="_blank" class="btn btn-sm btn-outline-accent">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com" target="_blank" class="btn btn-sm btn-outline-accent">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="btn btn-sm btn-outline-accent">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Team Member 2 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="glass-card text-center p-5 team-card">
-          <img src="https://ca.slack-edge.com/T0B01MXGUBD-U0B01NR3NJX-608f2618cd34-512" alt="AI Engineer"
-            class="rounded-circle mb-4 border border-3 border-accent"
-            style="width: 140px; height: 140px; object-fit: cover;">
-          <h4 class="h5 text-white mb-1">Noor Ul Hudda</h4>
-          <p class="text-accent fw-bold mb-3">AI Engineer</p>
-          <p class="text-muted mb-4" style="font-size: 0.9rem;">
-            AI and machine learning specialist with expertise in building intelligent systems. Dedicated to integrating cutting-edge AI solutions.
-          </p>
-          <div class="d-flex justify-content-center gap-2">
-            <a href="https://linkedin.com" target="_blank" class="btn btn-sm btn-outline-accent">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com" target="_blank" class="btn btn-sm btn-outline-accent">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="btn btn-sm btn-outline-accent">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 6. CONTACT SECTION -->
-<section id="contact" class="section-padding bg-darker">
-  <div class="container px-4">
-    <div class="row g-5 align-items-center">
-      <div class="col-lg-5">
-        <h2 class="section-title">Ready to launch?</h2>
-        <p class="text-muted mb-5" style="font-size: 0.95rem;">
-          Send us a message to discuss your project. No commitments, just a free technical consultation to understand your needs and how we can help.
-        </p>
-
-        <div class="d-flex align-items-center mb-4">
-          <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-            style="width: 48px; height: 48px; background: rgba(0,230,168,0.1);">
-            <i class="fas fa-envelope text-accent fs-5"></i>
-          </div>
-          <div>
-            <h5 class="mb-1 h6 text-white">Email Us</h5>
-            <a href="mailto:codeprojectsofficial&#64;gmail.com" class="text-muted text-decoration-none"
-              style="font-size: 0.9rem;">
-              codeprojectsofficial&#64;gmail.com
-            </a>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center">
-          <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-            style="width: 48px; height: 48px; background: rgba(37,211,102,0.1);">
-            <i class="fab fa-whatsapp fs-5" style="color: #25D366;"></i>
-          </div>
-          <div>
-            <h5 class="mb-1 h6 text-white">WhatsApp</h5>
-            <a href="https://wa.me/923000000000" target="_blank" class="text-muted text-decoration-none"
-              style="font-size: 0.9rem;">+92 308 6169699</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-7">
-        <div class="glass-card">
-          <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="Full Name" name="name"
-                  [(ngModel)]="contactData.name" required>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="[EMAIL_ADDRESS]" name="email"
-                  [(ngModel)]="contactData.email" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label">Message</label>
-                <textarea class="form-control" rows="4" placeholder="Tell us about your project..." name="message"
-                  [(ngModel)]="contactData.message" required></textarea>
-              </div>
-              <div class="col-12 mt-4 text-end">
-                <button type="submit" class="btn btn-accent w-100" [disabled]="contactForm.invalid || isSubmitting">
-                  <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status"></span>
-                  {{ isSubmitting ? 'Sending...' : 'Send Message' }}
-                </button>
-              </div>
-
-              <div class="col-12 mt-3 text-center">
-                <div *ngIf="submitSuccess" class="alert alert-success bg-transparent border-success text-success"
-                  style="font-size: 0.9rem; padding: 10px;">
-                  Message sent successfully! We'll get back to you soon.
-                </div>
-                <div *ngIf="submitError" class="alert alert-danger bg-transparent border-danger text-danger"
-                  style="font-size: 0.9rem; padding: 10px;">
-                  Failed to send message. Please try again later.
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Footer -->
-<footer class="py-4 text-center border-top" style="border-color: #1A1A1A !important;">
+<footer class="footer-wrap">
   <div class="container">
-    <p class="text-muted mb-0" style="font-size: 0.85rem;">&copy; 2026 Code Projects. All Rights Reserved.</p>
+    <p style="color: var(--text-dim); font-size: 0.7rem; letter-spacing: 2px;">
+      &copy; 2026 CODE PROJECTS. SYSTEM: <span style="color: var(--primary);">ACTIVE</span>
+    </p>
   </div>
 </footer>
