@@ -1,6 +1,6 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark position-absolute w-100 py-3"
-  style="z-index: 1000; background-color: rgba(10, 10, 10, 0.9) !important; backdrop-filter: blur(8px);">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark position-absolute w-100 py-4"
+  style="z-index: 1000; background-color: rgba(0, 0, 0, 0.9) !important; backdrop-filter: blur(8px); box-shadow: 0 2px 15px rgba(0,230,168,0.1);">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="assets/logo.png" alt="Code Projects Logo" height="35" class="me-2">
@@ -28,7 +28,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10 px-4">
         <h1 class="hero-title mb-4">
-          We build scalable web apps for startups in <span class="text-accent">2–4 weeks</span>
+          We build scalable web apps for startups in <span class="text-accent">2 to 4 weeks</span>
         </h1>
         <p class="mb-5 text-muted px-lg-5" style="font-size: 1.15rem;">
           Helping founders launch fast using .NET & Angular. We turn your ideas into functional, beautiful realities
@@ -85,45 +85,60 @@
   <div class="container px-4">
     <div class="text-center mb-5">
       <h2 class="section-title">Featured Work</h2>
-      <p class="text-muted">A glimpse into what we can build together.</p>
+      <p class="text-muted">A glimpse into what we can build together</p>
     </div>
 
     <div class="row g-4">
       <div class="col-lg-4 col-md-6">
-        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
-          <div style="height: 180px; background: #121212; display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-chart-line fa-3x text-accent opacity-50"></i>
+        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column project-card">
+          <div style="height: 180px; background: linear-gradient(135deg, #00e6a8 0%, #00a878 100%); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-chart-line fa-3x text-white opacity-75"></i>
           </div>
-          <div class="p-4 flex-grow-1">
+          <div class="p-4 flex-grow-1 d-flex flex-column">
             <h4 class="h6 mb-2 text-white">SaaS Dashboard</h4>
-            <p class="text-muted m-0" style="font-size: 0.9rem;">Built a complete admin dashboard with robust
-              authentication, role management, and real-time analytics.</p>
+            <p class="text-muted mb-4" style="font-size: 0.9rem;">Admin dashboard with robust authentication, role management, and real-time analytics. Built with .NET & Angular.</p>
+            <div class="mt-auto d-flex gap-2">
+              <a href="https://github.com/your-username/saas-dashboard" target="_blank" class="btn btn-sm btn-outline-accent flex-grow-1">
+                <i class="fab fa-github me-1"></i>View Code
+              </a>
+              <a href="#contact" class="btn btn-sm btn-accent flex-grow-1">View Demo</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
-          <div style="height: 180px; background: #121212; display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-shopping-cart fa-3x text-accent opacity-50"></i>
+        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column project-card">
+          <div style="height: 180px; background: linear-gradient(135deg, #00e6a8 0%, #00a878 100%); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-shopping-cart fa-3x text-white opacity-75"></i>
           </div>
-          <div class="p-4 flex-grow-1">
+          <div class="p-4 flex-grow-1 d-flex flex-column">
             <h4 class="h6 mb-2 text-white">E-Commerce API</h4>
-            <p class="text-muted m-0" style="font-size: 0.9rem;">A high-performance B2B portal with secure payment
-              gateways and inventory sync, handling 1k+ daily transactions.</p>
+            <p class="text-muted mb-4" style="font-size: 0.9rem;">High-performance B2B portal with secure payment gateways and inventory sync, handling 1k+ daily transactions.</p>
+            <div class="mt-auto d-flex gap-2">
+              <a href="https://github.com/your-username/ecommerce-api" target="_blank" class="btn btn-sm btn-outline-accent flex-grow-1">
+                <i class="fab fa-github me-1"></i>View Code
+              </a>
+              <a href="#contact" class="btn btn-sm btn-accent flex-grow-1">View Demo</a>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column">
-          <div style="height: 180px; background: #121212; display: flex; align-items: center; justify-content: center;">
-            <i class="fas fa-mobile-alt fa-3x text-accent opacity-50"></i>
+        <div class="glass-card p-0 overflow-hidden h-100 d-flex flex-column project-card">
+          <div style="height: 180px; background: linear-gradient(135deg, #00e6a8 0%, #00a878 100%); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-mobile-alt fa-3x text-white opacity-75"></i>
           </div>
-          <div class="p-4 flex-grow-1">
+          <div class="p-4 flex-grow-1 d-flex flex-column">
             <h4 class="h6 mb-2 text-white">Booking System</h4>
-            <p class="text-muted m-0" style="font-size: 0.9rem;">Developed a responsive scheduling app for a health
-              clinic, designed and shipped in just 3 weeks.</p>
+            <p class="text-muted mb-4" style="font-size: 0.9rem;">Responsive scheduling app for healthcare, featuring appointment management, notifications, and patient portal. Shipped in 3 weeks.</p>
+            <div class="mt-auto d-flex gap-2">
+              <a href="https://github.com/your-username/booking-system" target="_blank" class="btn btn-sm btn-outline-accent flex-grow-1">
+                <i class="fab fa-github me-1"></i>View Code
+              </a>
+              <a href="#contact" class="btn btn-sm btn-accent flex-grow-1">View Demo</a>
+            </div>
           </div>
         </div>
       </div>
@@ -137,22 +152,100 @@
     <div class="row align-items-center">
       <div class="col-12 text-center mb-5">
         <h3 class="h4 text-white">Trusted by fast-growing startups & entrepreneurs</h3>
-        <p class="text-muted mb-0" style="font-size: 0.95rem;">"Worked with 10+ successful projects from concept to
-          launch."</p>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">Worked with 10+ successful projects from concept to launch</p>
       </div>
 
       <div class="col-lg-8 mx-auto">
-        <div class="glass-card text-center">
-          <i class="fas fa-quote-left fa-2x text-accent mb-3"></i>
-          <p class="fst-italic mb-4 text-white" style="font-size: 1.05rem; line-height: 1.7;">
-            "The team delivered exactly what we needed. The web app was fast, the code was clean, and they completed the
-            MVP weeks ahead of schedule. Highly recommended if you want to move quickly."
-          </p>
-          <div class="d-flex align-items-center justify-content-center">
-            <div class="text-center">
-              <h5 class="mb-0 h6 text-white">Ahmed Khan</h5>
-              <small class="text-accent-secondary">Startup Founder</small>
+        <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+          <div class="carousel-inner">
+            <!-- Review 1 -->
+            <div class="carousel-item active">
+              <div class="glass-card text-center p-5">
+                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
+                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
+                  The team delivered exactly what we needed. The web app was fast, the code was clean, and they completed the MVP weeks ahead of schedule. Highly recommended if you want to move quickly.
+                </p>
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" alt="Client"
+                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                  <div class="text-start">
+                    <h5 class="mb-0 h6 text-white">Ahmed Khan</h5>
+                    <small class="text-accent">Startup Founder</small>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <!-- Review 2 -->
+            <div class="carousel-item">
+              <div class="glass-card text-center p-5">
+                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
+                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
+                  Exceptional work quality and communication. They understood our requirements perfectly and delivered a production-ready solution. The whole process was smooth and professional.
+                </p>
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop" alt="Client"
+                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                  <div class="text-start">
+                    <h5 class="mb-0 h6 text-white">Sarah Mitchell</h5>
+                    <small class="text-accent">CEO, TechVentures</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="carousel-item">
+              <div class="glass-card text-center p-5">
+                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
+                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
+                  Their expertise in .NET and Angular is unmatched. They didn't just build the app, they optimized it for performance and scalability. Best investment we made for our startup.
+                </p>
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" alt="Client"
+                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                  <div class="text-start">
+                    <h5 class="mb-0 h6 text-white">Marcus Johnson</h5>
+                    <small class="text-accent">Product Manager</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Review 4 -->
+            <div class="carousel-item">
+              <div class="glass-card text-center p-5">
+                <i class="fas fa-quote-left fa-2x text-accent mb-4"></i>
+                <p class="fst-italic mb-5 text-white" style="font-size: 1.05rem; line-height: 1.7;">
+                  Fast, reliable, and incredibly professional. They turned our complex requirements into a beautiful, functional application. Would definitely work with them again.
+                </p>
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop" alt="Client"
+                    class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                  <div class="text-start">
+                    <h5 class="mb-0 h6 text-white">Emma Rodriguez</h5>
+                    <small class="text-accent">Founder, StartupLabs</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carousel Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+
+          <!-- Carousel Indicators -->
+          <div class="carousel-indicators mt-4">
+            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="0" class="active bg-accent"
+              aria-current="true"></button>
+            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="1" class="bg-accent"></button>
+            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="2" class="bg-accent"></button>
+            <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="3" class="bg-accent"></button>
           </div>
         </div>
       </div>
@@ -164,25 +257,135 @@
 <section id="about" class="section-padding">
   <div class="container px-4">
     <div class="row align-items-center">
-      <div class="col-lg-5 mb-5 mb-lg-0 text-center">
-        <div class="position-relative d-inline-block">
-          <img src="assets/profile.png" alt="Founder"
-            class="img-fluid rounded-circle border border-4 border-dark shadow-lg"
-            style="max-width: 240px; height: 240px; object-fit: cover;">
+      <div class="col-lg-5 mb-5 mb-lg-0">
+        <div class="glass-card p-5">
+          <h4 class="h5 text-white mb-4">Why Choose Code Projects?</h4>
+          <div class="mb-4">
+            <div class="d-flex gap-3 mb-3">
+              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+              <div>
+                <h6 class="text-white mb-1">Fast Delivery</h6>
+                <p class="text-muted m-0" style="font-size: 0.9rem;">MVP in 2-4 weeks, not months</p>
+              </div>
+            </div>
+            <div class="d-flex gap-3 mb-3">
+              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+              <div>
+                <h6 class="text-white mb-1">Expert Team</h6>
+                <p class="text-muted m-0" style="font-size: 0.9rem;">Full-stack developers with 6+ years experience</p>
+              </div>
+            </div>
+            <div class="d-flex gap-3 mb-3">
+              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+              <div>
+                <h6 class="text-white mb-1">Scalable Architecture</h6>
+                <p class="text-muted m-0" style="font-size: 0.9rem;">Built to grow with your business</p>
+              </div>
+            </div>
+            <div class="d-flex gap-3 mb-3">
+              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+              <div>
+                <h6 class="text-white mb-1">Clean Code</h6>
+                <p class="text-muted m-0" style="font-size: 0.9rem;">Maintainable, documented, production-ready</p>
+              </div>
+            </div>
+            <div class="d-flex gap-3">
+              <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+              <div>
+                <h6 class="text-white mb-1">Transparent Communication</h6>
+                <p class="text-muted m-0" style="font-size: 0.9rem;">Regular updates, no surprises</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-lg-7 text-center text-lg-start">
-        <h2 class="section-title">Who's behind Code Projects?</h2>
-        <p class="mb-3 text-white" style="font-size: 1.1rem;">
-          I’m a full-stack developer with <span class="text-accent fw-bold">6+ years experience</span> helping startups
-          build fast, secure, and scalable applications.
+      <div class="col-lg-7">
+        <h2 class="section-title">About Code Projects</h2>
+        <p class="mb-4 text-white" style="font-size: 1.1rem;">
+          Code Projects was founded with a simple mission: <span class="text-accent fw-bold">help startups launch faster without compromising on quality.</span>
+        </p>
+        <p class="text-muted mb-3" style="font-size: 0.95rem;">
+          We started because we saw founders struggling with slow development timelines and inflated budgets. Most agencies prioritize lengthy contracts over delivering results. We're different.
         </p>
         <p class="text-muted mb-4" style="font-size: 0.95rem;">
-          I understand that as a founder, you don't just want code—you want a functional product that users love,
-          delivered on a strict timeline. My expertise in the .NET ecosystem combined with modern frontend frameworks
-          ensures we deliver enterprise-grade performance at startup speed.
+          Since our inception, we've successfully delivered 10+ production applications using modern tech stacks (.NET, Angular, Cloud). Our approach combines enterprise-grade architecture with startup speed, ensuring your application is built to scale from day one.
         </p>
-        <a href="#contact" class="btn btn-accent">Let's Talk</a>
+        <div class="d-flex gap-3">
+          <div>
+            <h5 class="text-accent h4 fw-bold">10+</h5>
+            <small class="text-muted">Successful Projects</small>
+          </div>
+          <div>
+            <h5 class="text-accent h4 fw-bold">50+</h5>
+            <small class="text-muted">Happy Clients</small>
+          </div>
+          <div>
+            <h5 class="text-accent h4 fw-bold">4 Weeks</h5>
+            <small class="text-muted">Avg Delivery</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5B. MEET THE TEAM SECTION -->
+<section class="section-padding bg-darker">
+  <div class="container px-4">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Meet the Team</h2>
+      <p class="text-muted">Experienced professionals dedicated to your success</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Team Member 1 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass-card text-center p-5 team-card">
+          <img src="../assets/profile.png" alt="CEO"
+            class="rounded-circle mb-4 border border-3 border-accent"
+            style="width: 140px; height: 140px; object-fit: cover;">
+          <h4 class="h5 text-white mb-1">Ahsan Mehmood</h4>
+          <p class="text-accent fw-bold mb-3">Founder & CEO</p>
+          <p class="text-muted mb-4" style="font-size: 0.9rem;">
+            Full-stack developer with 6+ years building enterprise applications. Passionate about turning ideas into scalable products.
+          </p>
+          <div class="d-flex justify-content-center gap-2">
+            <a href="https://linkedin.com" target="_blank" class="btn btn-sm btn-outline-accent">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com" target="_blank" class="btn btn-sm btn-outline-accent">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="btn btn-sm btn-outline-accent">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Member 2 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass-card text-center p-5 team-card">
+          <img src="https://ca.slack-edge.com/T0B01MXGUBD-U0B01NR3NJX-608f2618cd34-512" alt="AI Engineer"
+            class="rounded-circle mb-4 border border-3 border-accent"
+            style="width: 140px; height: 140px; object-fit: cover;">
+          <h4 class="h5 text-white mb-1">Noor Ul Hudda</h4>
+          <p class="text-accent fw-bold mb-3">AI Engineer</p>
+          <p class="text-muted mb-4" style="font-size: 0.9rem;">
+            AI and machine learning specialist with expertise in building intelligent systems. Dedicated to integrating cutting-edge AI solutions.
+          </p>
+          <div class="d-flex justify-content-center gap-2">
+            <a href="https://linkedin.com" target="_blank" class="btn btn-sm btn-outline-accent">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com" target="_blank" class="btn btn-sm btn-outline-accent">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="btn btn-sm btn-outline-accent">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -195,7 +398,7 @@
       <div class="col-lg-5">
         <h2 class="section-title">Ready to launch?</h2>
         <p class="text-muted mb-5" style="font-size: 0.95rem;">
-          Drop me a message to discuss your idea. No commitments, just a free technical consultation.
+          Send us a message to discuss your project. No commitments, just a free technical consultation to understand your needs and how we can help.
         </p>
 
         <div class="d-flex align-items-center mb-4">
