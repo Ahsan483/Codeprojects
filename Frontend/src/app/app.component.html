@@ -18,21 +18,28 @@
 
 <!-- Navbar -->
 <nav class="navbar-custom" [class.scrolled]="isScrolled" id="navbar">
+  <div class="nav-top-bar"></div>
+  <div class="nav-scan-line"></div>
+
   <div class="nav-container">
-    <div class="logo-wrap">
-      <img src="assets/logo.png" alt="Logo" class="logo-img" />
-    </div>
+      <div class="logo-plate">
+        <img src="assets/logo.png" alt="Logo" class="logo-img" />
+      </div>
     
     <ul class="nav-links" [class.active]="isMobileMenuOpen">
-      <li><a href="#services" (click)="isMobileMenuOpen = false">SERVICES</a></li>
-      <li><a href="#portfolio" (click)="isMobileMenuOpen = false">PORTFOLIO</a></li>
-      <li><a href="#about" (click)="isMobileMenuOpen = false">ABOUT</a></li>
-      <li><a href="#contact" (click)="isMobileMenuOpen = false">CONTACT</a></li>
+      <li class="nav-item"><a href="#services" (click)="isMobileMenuOpen = false"><span class="nl-text">SERVICES</span></a></li>
+      <li class="nav-item"><a href="#portfolio" (click)="isMobileMenuOpen = false"><span class="nl-text">PORTFOLIO</span></a></li>
+      <li class="nav-item"><a href="#about" (click)="isMobileMenuOpen = false"><span class="nl-text">ABOUT</span></a></li>
+      <li class="nav-item"><a href="#contact" (click)="isMobileMenuOpen = false"><span class="nl-text">CONTACT</span></a></li>
     </ul>
 
-    <button class="nav-toggle" (click)="toggleMobileMenu()">
-      <i class="fas" [class.fa-bars]="!isMobileMenuOpen" [class.fa-times]="isMobileMenuOpen"></i>
-    </button>
+    <div class="nav-right">
+      <button class="nav-toggle" (click)="toggleMobileMenu()">
+        <span class="hb-line" [class.open]="isMobileMenuOpen"></span>
+        <span class="hb-line" [class.open]="isMobileMenuOpen"></span>
+        <span class="hb-line" [class.open]="isMobileMenuOpen"></span>
+      </button>
+    </div>
   </div>
 </nav>
 
