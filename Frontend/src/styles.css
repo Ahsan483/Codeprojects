@@ -273,7 +273,7 @@ h1, h2, h3, .accent-text {
 
   .nav-toggle {
     display: flex;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
 
   /* Compact dropdown  sits flush below navbar, slides in right-to-left */
