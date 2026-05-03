@@ -2,7 +2,7 @@
    ANIMATIONS & TRANSITIONS
    ============================================ */
 
-/* Logo — no animation, no hover movement */
+/* Logo  no animation, no hover movement */
 .logo-img {
   animation: none;
   transition: none;
@@ -143,20 +143,9 @@ section {
   border-color: rgba(0, 230, 168, 0.4);
 }
 
-/* Icon Pulse Animation */
+/* Icon Pulse Animation  disabled */
 .fa-rocket, .fa-code, .fa-bolt {
-  animation: iconPulse 2s ease-in-out infinite;
-}
-
-@keyframes iconPulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
+  animation: none;
 }
 
 /* Smooth Scroll Behavior */

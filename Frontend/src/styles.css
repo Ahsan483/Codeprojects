@@ -164,7 +164,7 @@ h1, h2, h3, .accent-text {
   align-items: stretch;
 }
 
-/* 3D raised plate — logo appears to protrude from the navbar surface */
+/* 3D raised plate  logo appears to protrude from the navbar surface */
 .logo-plate {
   display: flex;
   align-items: center;
@@ -273,7 +273,7 @@ h1, h2, h3, .accent-text {
     margin-bottom: 30px;
   }
 
-  /* Compact dropdown — sits flush below navbar, slides in right-to-left */
+  /* Compact dropdown  sits flush below navbar, slides in right-to-left */
   .nav-links {
     display: flex;
     flex-direction: column;
@@ -338,6 +338,90 @@ h1, h2, h3, .accent-text {
   }
 
   .nl-text::after { display: none; }
+}
+
+/* --- LEARN & GROW SECTION --- */
+.learn-section {
+  border-top: 1px solid rgba(0, 230, 168, 0.08);
+}
+
+.learn-label {
+  display: inline-block;
+  font-family: var(--accent-font);
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.learn-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.learn-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.learn-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.learn-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.2rem 1.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-dim);
+  border-left: 2px solid rgba(0, 230, 168, 0.35);
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.learn-stat-card:hover {
+  border-left-color: var(--primary);
+  background: rgba(0, 230, 168, 0.03);
+}
+
+.learn-stat-card strong {
+  font-family: var(--accent-font);
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.learn-stat-card span {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .learn-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.learn-btns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  margin-top: 2rem;
+}
+
+@media (max-width: 480px) {
+  .learn-btns .btn-core {
+    padding: 0.6rem 1rem;
+    font-size: 0.7rem;
+  }
 }
 
 /* --- BUTTONS --- */
