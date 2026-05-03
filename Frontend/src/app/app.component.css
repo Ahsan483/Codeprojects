@@ -190,7 +190,7 @@ html {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .logo-img {
-    height: 65px;
+    height: 36px;
   }
 
   .project-card:hover {

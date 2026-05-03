@@ -123,7 +123,7 @@ h1, h2, h3, .accent-text {
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, var(--primary) 20%, var(--secondary) 50%, var(--primary) 80%, transparent 100%);
   background-size: 200% 100%;
-  animation: nav-glow-sweep 3s linear infinite;
+  animation: nav-glow-sweep 6s ease-in-out infinite;
 }
 
 @keyframes nav-glow-sweep {
@@ -135,17 +135,18 @@ h1, h2, h3, .accent-text {
 .nav-scan-line {
   position: absolute;
   top: 0;
-  left: -60%;
+  left: 0;
   width: 50%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(0,230,168,0.025), transparent);
   animation: nav-scan 5s linear infinite;
   pointer-events: none;
+  will-change: transform;
 }
 
 @keyframes nav-scan {
-  0%   { left: -60%; }
-  100% { left: 120%; }
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(280%); }
 }
 
 .nav-container {
@@ -168,16 +169,18 @@ h1, h2, h3, .accent-text {
 .logo-plate {
   display: flex;
   align-items: center;
-  padding: 0.3rem 1.6rem 0.7rem;
+  padding: 0.2rem 1.2rem 0.3rem;
   position: relative;
   z-index: 1;
 }
 
 .logo-img {
-  height: 78px;
+  height: 44px;
   width: auto;
   display: block;
   image-rendering: -webkit-optimize-contrast;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Nav links */
@@ -270,7 +273,7 @@ h1, h2, h3, .accent-text {
 
   .nav-toggle {
     display: flex;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
 
   /* Compact dropdown  sits flush below navbar, slides in right-to-left */
@@ -410,17 +413,21 @@ h1, h2, h3, .accent-text {
   }
 }
 
-.learn-btns {
+/* Button rows — always stay horizontal on every screen size */
+.btn-row {
   display: flex;
   gap: 1rem;
   flex-wrap: nowrap;
+  align-items: center;
   margin-top: 2rem;
 }
 
 @media (max-width: 480px) {
-  .learn-btns .btn-core {
-    padding: 0.6rem 1rem;
-    font-size: 0.7rem;
+  .btn-row .btn-core {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.5px;
+    gap: 0.4rem;
   }
 }
 
